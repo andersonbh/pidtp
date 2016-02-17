@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "pidtp",
+    "packageName": "com.andersoncarvalho.pidtp",
+    "packageFolder": "com/andersoncarvalho/pidtp",
+    "authenticationType": "session",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "postgresql",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": "no",
+    "useSass": false,
+    "buildTool": "gradle",
+    "frontendBuilder": "grunt",
+    "enableTranslation": false,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "59cdcd3b47b7b4e9bd2477dea81d5e2482ff3ae4",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}
