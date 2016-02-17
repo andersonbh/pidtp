@@ -1,71 +1,45 @@
-# pidtp
+# Trabalho Prático de Processamento de Imagens Digitais
 
-This application was generated using JHipster, you can find documentation and help at [https://jhipster.github.io](https://jhipster.github.io).
+Antes de iniciar o desenvolvimento, instale e configure as seguintes dependências:
 
-Before you can build this project, you must install and configure the following dependencies on your machine:
+1. [Node.js][]: O Node é utilizado para rodar um servidor de desenvolvimento e fazer o build do projeto.
 
-1. [Node.js][]: We use Node to run a development web server and build the project.
-   Depending on your system, you can install Node either from source or as a pre-packaged bundle.
+   Dependendo do sistema que você utilizar, o nodejs pode vir em pacotes já pré instalados.
 
-After installing Node, you should be able to run the following command to install development tools (like
-[Bower][] and [BrowserSync][]). You will only need to run this command when dependencies change in package.json.
+Depois de instalar o nodeJs, execute os comandos:
 
     npm install
+    
+    npm install -g grunt-cli bower yo generator-karma generator-angular generator-jhipster
 
-We use [Grunt][] as our build system. Install the grunt command-line tool globally with:
-
-    npm install -g grunt-cli
-
-Run the following commands in two separate terminals to create a blissful development experience where your browser
-auto-refreshes when files change on your hard drive.
+Configure o Tomcat no Intellij IDEA e inicie a aplicação. Caso queira rodar a mesma sem o Intellij IDEA, execute:
 
     ./gradlew
+    
+Para monitorar alterações no código execute
+
     grunt
 
-Bower is used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in `bower.json`. You can also run `bower update` and `bower install` to manage dependencies.
-Add the `-h` flag on any command to see how you can use it. For example, `bower update -h`.
+Para gerenciar as dependências de CSS e JavaScript, execute `bower update` ou `bower install`.
 
-# Building for production
+# Colocando em produção
 
-To optimize the pidtp client for production, run:
+Para colocar o sistema de inventário em produção, execute:
 
     ./gradlew -Pprod clean bootRepackage
 
-This will concatenate and minify CSS and JavaScript files. It will also modify `index.html` so it references
-these new files.
-
-To ensure everything worked, run:
+Esse comando irá concatenar o CSS e os JavaScript. Para verificar se está tudo certo e rodando, execute:
 
     java -jar build/libs/*.war --spring.profiles.active=prod
 
-Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
+E então, acesso [http://localhost:8080](http://localhost:8080) no browser.
 
-# Testing
+# Testando
 
-Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in `src/test/javascript` and can be run with:
+Testes unitários são executados pelo [Karma][] e escritos por [Jasmine][]. Eles estão em `src/test/javascript` e podem ser executados com o comando:
 
     grunt test
 
-
-
-# Continuous Integration
-
-To setup this project in Jenkins, use the following configuration:
-
-* Project name: `pidtp`
-* Source Code Management
-    * Git Repository: `git@github.com:xxxx/pidtp.git`
-    * Branches to build: `*/master`
-    * Additional Behaviours: `Wipe out repository & force clone`
-* Build Triggers
-    * Poll SCM / Schedule: `H/5 * * * *`
-* Build
-    * Invoke Gradle script / Use Gradle Wrapper / Tasks: `-Pprod clean test bootRepackage`
-* Post-build Actions
-    * Publish JUnit test result report / Test Report XMLs: `build/test-results/*.xml`
-
-[JHipster]: https://jhipster.github.io/
 [Node.js]: https://nodejs.org/
 [Bower]: http://bower.io/
 [Grunt]: http://gruntjs.com/
