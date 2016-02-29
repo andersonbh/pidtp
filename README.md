@@ -11,6 +11,8 @@ Depois de instalar o nodeJs, execute os comandos:
     npm install
     
     npm install -g grunt-cli bower yo generator-karma generator-angular generator-jhipster
+    
+    bower install
 
 Configure o Tomcat no Intellij IDEA e inicie a aplicação. Caso queira rodar a mesma sem o Intellij IDEA, execute:
 
