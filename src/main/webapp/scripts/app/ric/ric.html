@@ -19,10 +19,14 @@
                                 ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
                         </button>
                     </div>
-                    <input type="file" id="trigger" class="ng-show" onchange="angular.element(this).scope().setFile(this)" accept="image/*">
 
                     <input colorpicker ng-model="hexColor" placeholder="Cor Hexadecimal" type="text"/>
                     <button ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar cor</button>
+
+                    <form id="form1" runat="server">
+                        <input type='file' id="imgInp"  accept="image/*"/>
+                        <img id="blah" src="#" alt="your image" />
+                    </form>
 
                 </div>
             </div>

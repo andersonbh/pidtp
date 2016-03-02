@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('pidtpApp')
-    .controller('RICController', function ($scope, Principal) {
+    .controller('RICController', function ($scope, Principal, $state) {
         Principal.identity().then(function(account) {
             $scope.account = account;
             $scope.isAuthenticated = Principal.isAuthenticated;
@@ -47,4 +47,31 @@ angular.module('pidtpApp')
             // when the file is read it triggers the onload event above.
             reader.readAsDataURL(element.files[0]);
         }
+
+        function readURL(input) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+                $scope.imagem.caminho = '../../assets/images/development_ribbon.png'
+
+            }
+        }
+
+        $("#imgInp").change(function(){
+            readURL(this);
+            $scope.reload();
+        });
+
+        //Recarrega a imagem depois que a outra substitui, temos que enviar para a mesma url por enquanto
+
+        $scope.reload = function(){
+            $scope.imagem.caminho = '../../assets/images/development_ribbon.png'
+            $state.go($state.current, {}, {reload: true});
+        };
     });
