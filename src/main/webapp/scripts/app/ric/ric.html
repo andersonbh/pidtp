@@ -1,24 +1,32 @@
 <div ng-cloak>
     <div class="row">
         <div class="col-md-12">
+            <div class="col-md-8">
+                <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
+                    <div version="ctrl.version" pw-canvas
+                         options="{undo: true,
+                          color: corSelecionada,
+                          width: imagem.width, height: imagem.height,
+                         lineWidth: tamanhoLinha,
+                         imageSrc: imagem.caminho
+                            }">
+                    </div>
+                    <div pw-color-selector="selectcolors" color="corSelecionada"></div>
+                    <label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
+                    <input type="range" id="tamanho" ng-model="tamanhoLinha" max="50">
+                    <div class="undo">
+                        <button ng-click="ctrl.undo()"
+                                ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
+                        </button>
+                    </div>
+                    <input type="file" id="trigger" class="ng-show" onchange="angular.element(this).scope().setFile(this)" accept="image/*">
 
-            <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
-                <div version="ctrl.version" pw-canvas
-                     options="{undo: true,
-	color: selectedColor,
-	lineWidth: lineWidth
-	}"
-                >
+                    <input colorpicker ng-model="hexColor" placeholder="Cor Hexadecimal" type="text"/>
+                    <button ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar cor</button>
+
                 </div>
-                <div pw-color-selector="selectcolors" color="selectedColor" ></div>
-                <input type="range" ng-model="lineWidth" max="50">
-                {{lineWidth}}
-                <div class="undo">
-                    <button ng-click="ctrl.undo()"
-                            ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})</button>
-                </div>
-                <input type="text" ng-model="hexColor" placeholder="Hex Color">
-                <button ng-click="pushColor();" ng-disabled="!hexColor">Add</button>
+            </div>
+            <div class="col-md-4">
             </div>
         </div>
     </div>
