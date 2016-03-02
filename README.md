@@ -14,6 +14,8 @@ Depois de instalar o nodeJs, execute os comandos:
     
     bower install
 
+Inclua o diretorio node_modules nas exclusões de indexação do projeto
+
 Configure o Tomcat no Intellij IDEA e inicie a aplicação. Caso queira rodar a mesma sem o Intellij IDEA, execute:
 
     ./gradlew
