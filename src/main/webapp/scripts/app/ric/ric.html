@@ -1,0 +1,25 @@
+<div ng-cloak>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
+                <div version="ctrl.version" pw-canvas
+                     options="{undo: true,
+	color: selectedColor,
+	lineWidth: lineWidth
+	}"
+                >
+                </div>
+                <div pw-color-selector="selectcolors" color="selectedColor" ></div>
+                <input type="range" ng-model="lineWidth" max="50">
+                {{lineWidth}}
+                <div class="undo">
+                    <button ng-click="ctrl.undo()"
+                            ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})</button>
+                </div>
+                <input type="text" ng-model="hexColor" placeholder="Hex Color">
+                <button ng-click="pushColor();" ng-disabled="!hexColor">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
