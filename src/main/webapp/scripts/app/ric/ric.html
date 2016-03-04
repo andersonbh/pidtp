@@ -14,19 +14,46 @@
                     <div pw-color-selector="selectcolors" color="corSelecionada"></div>
                     <label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
                     <input type="range" id="tamanho" ng-model="tamanhoLinha" max="50">
-                    <div class="undo">
+                    <div class="undo" style="margin-bottom: 10px;">
                         <button ng-click="ctrl.undo()"
                                 ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
                         </button>
                     </div>
-                    <input type="file" id="trigger" class="ng-show" onchange="angular.element(this).scope().setFile(this)" accept="image/*">
-
+                    <div style="margin-bottom: 10px;">
+                        <input type="file" id="trigger" class="ng-show" onchange="angular.element(this).scope().setFile(this)" accept="image/*" style="float: left">
+                        <select>
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="100">100</option>
+                            <option value="1000">1000</option>
+                        </select>
+                    </div>
                     <input colorpicker ng-model="hexColor" placeholder="Cor Hexadecimal" type="text"/>
                     <button ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar cor</button>
 
                 </div>
             </div>
             <div class="col-md-4">
+                <!--<div class="col-md-6 btn-group-vertical">-->
+                    <!--<button ng-click="" class="btn btn-primary button-left">teste1</button>-->
+                    <!--<button ng-click="" class="btn btn-primary button-left">teste3</button>-->
+                    <!--<button ng-click="" class="btn btn-primary button-left">teste5</button>-->
+                <!--</div>-->
+                <!--<div class="col-md-6 btn-group-vertical">-->
+                    <!--<button ng-click="" class="btn btn-primary button-left">teste2</button>-->
+                    <!--<button ng-click="" class="btn btn-primary button-left">teste4</button>-->
+                    <!--<button ng-click="" class="btn btn-primary button-left">teste6</button>-->
+                <!--</div>-->
+                <div class="col-md-10 btn-group-vertical btn-left">
+                    <button ng-click="" class="btn btn-primary button-left2">Histograma das imagens</button>
+                    <button ng-click="" class="btn btn-primary button-left2">Grafico Precisão x Revocacão</button>
+                    <button ng-click="" class="btn btn-primary button-left2">teste5</button>
+                    <button ng-click="" class="btn btn-primary button-left2">teste2</button>
+                    <button ng-click="" class="btn btn-primary button-left2">teste4</button>
+                    <button ng-click="" class="btn btn-primary button-left2">teste6</button>
+                </div>
             </div>
         </div>
     </div>
