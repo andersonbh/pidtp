@@ -3,11 +3,11 @@
         <div class="col-md-12">
             <div class="col-md-8">
                 <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
-                    <div>
-                        <img id="blah" src="#" width="imagem.width" height="imagem.height"/>
-                    </div>
+                    <!--<div ng-hide="desenhando || imagemEnviada">-->
+                        <!--<img ng-src="{{imagem.caminho}}" id="blah" style="width: {{imagem.width}}px; height: {{imagem.height}}px"/>-->
+                    <!--</div>-->
                     <!--Div do desenho-->
-                    <div ng-if="desenhando">
+                    <div >
                         <div version="ctrl.version" pw-canvas
                              options="{undo: true,
                           color: corSelecionada,
@@ -33,11 +33,11 @@
                             <a class="btn btn-info" ng-click="fazerDownload()" id="btn-download">Download</a>
                         </div>
                     </div>
-                    <div class="desenhar">
+                    <div class="desenhar" >
                         <button ng-click="desenhando = true;">Desenhar Imagem</button>
                     </div>
                     <div class="enviarImg">
-                        <input type='file' id="imgInp" accept="image/*"/>
+                        <input ng-click="imagemEnviada = true;" type='file' id="imgEnv" accept="image/*"/>
                     </div>
 
                 </div>
