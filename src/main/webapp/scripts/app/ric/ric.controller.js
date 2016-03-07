@@ -76,6 +76,13 @@ angular.module('pidtpApp')
             $state.go($state.current, {}, {reload: true});
         };
 
-
+//Ação do botão de fazer download que pega o canvas, gera um png e baixa para desenho.png
+        $scope.fazerDownload = function () {
+            var cnvs = document.getElementById('pwCanvasMain');
+            var button = document.getElementById('btn-download');
+            var dataURL = cnvs.toDataURL('image/png');
+            button.download = 'bla.png';
+            button.href = dataURL;
+        }
 
     });

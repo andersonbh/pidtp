@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <div class="col-md-8">
                 <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
-                    <div >
+                    <div>
                         <img id="blah" src="#" width="imagem.width" height="imagem.height"/>
                     </div>
                     <!--Div do desenho-->
@@ -14,7 +14,7 @@
                           width: imagem.width, height: imagem.height,
                          lineWidth: tamanhoLinha,
                          imageSrc: imagem.caminho
-                            }"ng-model="desenho">
+                            }" ng-model="desenho">
                         </div>
                         <div pw-color-selector="selectcolors" color="corSelecionada"></div>
                         <div>
@@ -29,11 +29,12 @@
                                     ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
                             </button>
                         </div>
+                        <div>
+                            <a class="btn btn-info" ng-click="fazerDownload()" id="btn-download">Download</a>
+                        </div>
                     </div>
                     <div class="desenhar">
-                        <button ng-click="desenhando = true;"
-                                >Desenhar Imagem
-                        </button>
+                        <button ng-click="desenhando = true;">Desenhar Imagem</button>
                     </div>
                     <div class="enviarImg">
                         <input type='file' id="imgInp" accept="image/*"/>
