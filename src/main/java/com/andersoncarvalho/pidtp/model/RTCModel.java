@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
  * Created by anderson on 02/03/16.
  */
 @Service
-@Scope("prototype")
 public class RTCModel {
     @Autowired
     protected DAO DAO;
@@ -19,7 +18,7 @@ public class RTCModel {
     protected EntityManager em;
 
 
-    public void manipularImagem(Imagem img) {
-        DAO.persist(img);
-    }
+//    public void manipularImagem(Imagem img) {
+//        DAO.persist(img);
+//    }
 }

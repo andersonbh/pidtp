@@ -41,6 +41,36 @@ body {
     background-color: #aaa;
 }
 
+.desenhar {
+    margin-top: 20px;
+}
+
+.desenhar > button {
+    background-color: #ff0f2e;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.desenhar > button[disabled] {
+    background-color: #aaa;
+}
+
+.enviarImg  {
+    margin-top: 20px;
+}
+
+.enviarImg  > input {
+    background-color: #136f1a;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+
+
 /* ==========================================================================
 Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
 ========================================================================== */

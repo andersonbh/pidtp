@@ -6,14 +6,16 @@ angular.module('pidtpApp')
             $scope.account = account;
             $scope.isAuthenticated = Principal.isAuthenticated;
         });
+        $scope.desenhando = false;
         this.undo = function(){
             this.version--;
         };
+        $scope.imagemselecionada = false;
+
 
         $scope.imagem = {
             width:  710,
-            height : 600,
-            caminho: '../../assets/images/hipster2x.png'
+            height : 600
         };
 
         $scope.hexColor='#000000';
@@ -40,7 +42,6 @@ angular.module('pidtpApp')
             var reader = new FileReader();
 
             reader.onload = function(event) {
-                $scope.imagem.caminho = event.target.result
                 $scope.$apply()
 
             }
@@ -58,7 +59,8 @@ angular.module('pidtpApp')
                 }
 
                 reader.readAsDataURL(input.files[0]);
-                $scope.imagem.caminho = '../../assets/images/development_ribbon.png'
+                $scope.imagem.caminho = input.files[0].name;
+                $scope.imagemselecionada = true;
 
             }
         }
@@ -71,7 +73,9 @@ angular.module('pidtpApp')
         //Recarrega a imagem depois que a outra substitui, temos que enviar para a mesma url por enquanto
 
         $scope.reload = function(){
-            $scope.imagem.caminho = '../../assets/images/development_ribbon.png'
             $state.go($state.current, {}, {reload: true});
         };
+
+
+
     });

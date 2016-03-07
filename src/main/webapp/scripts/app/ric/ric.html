@@ -3,30 +3,41 @@
         <div class="col-md-12">
             <div class="col-md-8">
                 <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
-                    <div version="ctrl.version" pw-canvas
-                         options="{undo: true,
+                    <div >
+                        <img id="blah" src="#" width="imagem.width" height="imagem.height"/>
+                    </div>
+                    <!--Div do desenho-->
+                    <div ng-if="desenhando">
+                        <div version="ctrl.version" pw-canvas
+                             options="{undo: true,
                           color: corSelecionada,
                           width: imagem.width, height: imagem.height,
                          lineWidth: tamanhoLinha,
                          imageSrc: imagem.caminho
-                            }">
+                            }"ng-model="desenho">
+                        </div>
+                        <div pw-color-selector="selectcolors" color="corSelecionada"></div>
+                        <div>
+                            <input colorpicker ng-model="hexColor" placeholder="Cor Hexadecimal" type="text"/>
+                            <button ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar cor</button>
+                        </div>
+                        <div><label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
+                            <input type="range" id="tamanho" ng-model="tamanhoLinha" max="50">
+                        </div>
+                        <div class="undo">
+                            <button ng-click="ctrl.undo()"
+                                    ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
+                            </button>
+                        </div>
                     </div>
-                    <div pw-color-selector="selectcolors" color="corSelecionada"></div>
-                    <label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
-                    <input type="range" id="tamanho" ng-model="tamanhoLinha" max="50">
-                    <div class="undo">
-                        <button ng-click="ctrl.undo()"
-                                ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
+                    <div class="desenhar">
+                        <button ng-click="desenhando = true;"
+                                >Desenhar Imagem
                         </button>
                     </div>
-
-                    <input colorpicker ng-model="hexColor" placeholder="Cor Hexadecimal" type="text"/>
-                    <button ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar cor</button>
-
-                    <form id="form1" runat="server">
-                        <input type='file' id="imgInp"  accept="image/*"/>
-                        <img id="blah" src="#" alt="your image" />
-                    </form>
+                    <div class="enviarImg">
+                        <input type='file' id="imgInp" accept="image/*"/>
+                    </div>
 
                 </div>
             </div>
