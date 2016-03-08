@@ -47,4 +47,16 @@ angular.module('pidtpApp')
             // when the file is read it triggers the onload event above.
             reader.readAsDataURL(element.files[0]);
         }
-    });
+
+        //$scope.carregarImagens = function() {
+        //        var dir = '../../assets/images/imageorig'
+        //        var fs = require("fs");
+        //        var results = [];
+        //
+        //        fs.readdir(dir);
+        //
+        //        console.log(fs);
+        //}
+        //
+        //$scope.carregarImagens();
+    }) ;
