@@ -53,49 +53,18 @@ angular.module('pidtpApp')
                         //$scope.$apply(function() {
                         var c = document.getElementById('pwCanvasMain');
                         var ctx = c.getContext("2d");
-                        var canvasRatio = canvas.height / canvas.width;
-                        var windowRatio = $scope.imagem.height / $scope.imagem.width;
-                        var width;
-                        var height;
+                        ctx.drawImage(this,0,0,image.width,image.height,0,0,$scope.imagem.width,$scope.imagem.height);
 
-                        if (windowRatio < canvasRatio) {
-                            height = window.innerHeight;
-                            width = height / canvasRatio;
-                        } else {
-                            width = window.innerWidth;
-                            height = width * canvasRatio;
-                        }
-                        canvas.style.width = width + 'px';
-                        canvas.style.height = height + 'px';
-                        ctx.drawImage(this, 0, 0);
-                        $scope.imagem.width = c.width;
-                        console.log($scope.imagem.width);
-                        //$scope.imagem.width = image.width;
-                        //$scope.imagem.height = image.height;
-                        //$scope.imagem.caminho = $scope.imageurl;
-                        //});
-                    }
-                    //$('#blah').attr('src', image.src);
-                    console.log($scope.imagem.width);
+                    };
                 };
-
                 reader.readAsDataURL(input.files[0]);
-                //Inicia uma imagem para pegar width e height
-
-
             }
         }
 
         //Monitora o envio de imagens e recarrega
         $("#imgEnv").change(function () {
             lerURL(this);
-            $scope.reload();
         });
-
-        //Recarrega a imagem depois que a outra substitui, temos que enviar para a mesma url por enquanto
-        $scope.reload = function () {
-            $state.go($state.current, {}, {reload: true});
-        };
 
         //Ação do botão de fazer download que pega o canvas, gera um png e baixa para desenho.png
         $scope.fazerDownload = function () {
