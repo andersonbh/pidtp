@@ -42,6 +42,10 @@ angular.module('pidtpApp')
             return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test($scope.hexColor);
         }
 
+        $scope.reload = function(){
+            $state.go($state.current, {}, {reload: true});
+        };
+
         function lerURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -50,11 +54,19 @@ angular.module('pidtpApp')
                     var image = new Image();
                     image.src = reader.result;
                     image.onload = function () {
-                        //$scope.$apply(function() {
+                        //Pega os canvas do angular-painter, exatamanete com os nomes pwcanvasmain e pwcanvastmp
                         var c = document.getElementById('pwCanvasMain');
+                        var ctemp = document.getElementById('pwCanvasTmp');
+                        //Redimensiona os dois para o tamanho da imagem lindamente
+                        c.width = image.width;
+                        c.height = image.height;
+                        ctemp.width = c.width;
+                        ctemp.height = c.height;
                         var ctx = c.getContext("2d");
-                        ctx.drawImage(this,0,0,image.width,image.height,0,0,$scope.imagem.width,$scope.imagem.height);
-
+                        ctx.fillRect(0, 0, c.width, c.height);
+                        $scope.imagem.width = image.width;
+                        $scope.imagem.height = image.height;
+                        ctx.drawImage(this, 0, 0);
                     };
                 };
                 reader.readAsDataURL(input.files[0]);
@@ -64,6 +76,8 @@ angular.module('pidtpApp')
         //Monitora o envio de imagens e recarrega
         $("#imgEnv").change(function () {
             lerURL(this);
+            $scope.imagemEnviada = true;
+            //$scope.reload();
         });
 
         //Ação do botão de fazer download que pega o canvas, gera um png e baixa para desenho.png
