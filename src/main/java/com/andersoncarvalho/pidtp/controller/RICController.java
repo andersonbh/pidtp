@@ -6,7 +6,8 @@ package com.andersoncarvalho.pidtp.controller;
     import com.andersoncarvalho.pidtp.controller.data.DataData;
     import com.andersoncarvalho.pidtp.controller.data.DataResponse;
     import com.andersoncarvalho.pidtp.dao.DAO;
-    import com.andersoncarvalho.pidtp.model.RTCModel;
+    import com.andersoncarvalho.pidtp.entity.Imagem;
+    import com.andersoncarvalho.pidtp.model.RICModel;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.context.annotation.Scope;
 
@@ -16,21 +17,19 @@ package com.andersoncarvalho.pidtp.controller;
     import org.springframework.web.multipart.MultipartFile;
 
 
-    import javax.sql.rowset.serial.SerialBlob;
     import java.io.IOException;
 
     import java.sql.SQLException;
-    import java.util.List;
 
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/rtc")
-public class RTCController extends AbstractController {
+@RequestMapping("/ric")
+public class RICController extends AbstractController {
     @Autowired
-    private RTCModel rtcModel;
+    private RICModel RICModel;
     @Autowired
-    private DAO dao;
+    private DAO DAO;
 
 //    Fazer o get das imagens do banco do professor
 
@@ -64,9 +63,9 @@ public class RTCController extends AbstractController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public DataResponse listaImagens(){
-        DataData response = new DataData(true);
-        response.add(rtcModel.listarImagens());
-        return response;
+        DataData dados = new DataData(true);
+        dados.add(DAO.findAll(Imagem.class));
+        return dados;
     }
 
 }
