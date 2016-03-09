@@ -57,17 +57,19 @@
                             </div>
                         </div>
                     </div>
+                    <div class="rolagemTabelaHorizontal">
+                        <table class="table table-bordered table-responsive">
 
-                    <table class="table table-bordered table-responsive">
+                            <tr>
+                                <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order)"
+                                    ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
+                                    ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)">
+                                    <img height="100" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order)"
-                                ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''
-				 }"
-                                ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)"><img height="100" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/></td>
-                        </tr>
-
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">

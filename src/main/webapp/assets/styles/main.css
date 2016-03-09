@@ -360,3 +360,8 @@ ul#strengthBar {
     margin-left: 60px;
 }
 
+/*Posicao sera relativa, ou seja ira preencher toda a div que estiver horizontalmente*/
+.rolagemTabelaHorizontal {
+    position: relative;
+    overflow: auto;
+}
