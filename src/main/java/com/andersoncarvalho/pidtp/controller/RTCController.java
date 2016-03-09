@@ -3,6 +3,8 @@ package com.andersoncarvalho.pidtp.controller;
 /**
  * Created by anderson on 02/03/16.
  */
+    import com.andersoncarvalho.pidtp.controller.data.DataData;
+    import com.andersoncarvalho.pidtp.controller.data.DataResponse;
     import com.andersoncarvalho.pidtp.dao.DAO;
     import com.andersoncarvalho.pidtp.model.RTCModel;
     import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ package com.andersoncarvalho.pidtp.controller;
     import java.io.IOException;
 
     import java.sql.SQLException;
+    import java.util.List;
 
 
 @Controller
@@ -57,4 +60,13 @@ public class RTCController extends AbstractController {
 
 
     }
+
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse listaImagens(){
+        DataData response = new DataData(true);
+        response.add(rtcModel.listarImagens());
+        return response;
+    }
+
 }

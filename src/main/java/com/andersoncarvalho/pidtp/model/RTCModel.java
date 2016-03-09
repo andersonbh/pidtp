@@ -6,6 +6,9 @@ import com.andersoncarvalho.pidtp.dao.DAO;
 import javax.inject.Scope;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by anderson on 02/03/16.
@@ -17,7 +20,21 @@ public class RTCModel {
     @PersistenceContext
     protected EntityManager em;
 
+    public List<String> listarImagens() {
+        List<String> results = new ArrayList<String>();
+        File folder = new File("~/Projetos/pidtp/src/main/webapp/assets/images/imageorig");
+        File[] listOfFiles = folder.listFiles();
 
+        for (int i = 0; i < listOfFiles.length; i++) {
+            if (listOfFiles[i].isFile()) {
+                results.add(listOfFiles[i].getName());
+                System.out.println("File " + listOfFiles[i].getName());
+            } else if (listOfFiles[i].isDirectory()) {
+                System.out.println("Directory " + listOfFiles[i].getName());
+            }
+        }
+        return results;
+    }
 //    public void manipularImagem(Imagem img) {
 //        DAO.persist(img);
 //    }

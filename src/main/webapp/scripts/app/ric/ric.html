@@ -29,38 +29,34 @@
                                     ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
                             </button>
                         </div>
+                        <br>
                         <div>
                             <a class="btn btn-info" ng-click="fazerDownload()" id="btn-download">Download</a>
                         </div>
                     </div>
-<<<<<<< HEAD
-                    <div pw-color-selector="selectcolors" color="corSelecionada"></div>
-                    <label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
-                    <input type="range" id="tamanho" ng-model="tamanhoLinha" max="50">
-                    <div class="undo" style="margin-bottom: 10px;">
-                        <button ng-click="ctrl.undo()"
-                                ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
-                        </button>
-                    </div>
-                    <!--<div style="margin-bottom: 10px;">-->
-                        <!--<select>-->
-                            <!--<option value="5">5</option>-->
-                            <!--<option value="10">10</option>-->
-                            <!--<option value="15">15</option>-->
-                            <!--<option value="20">20</option>-->
-                            <!--<option value="100">100</option>-->
-                            <!--<option value="1000">1000</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-
                     <!--<div class="desenhar" >-->
                         <!--<button ng-click="desenhando = true;">Desenhar Imagem</button>-->
                     <!--</div>-->
                     <div class="enviarImg">
                         <input ng-click="imagemEnviada = true;" type='file' id="imgEnv" accept="image/*"/>
                     </div>
+                    <div id="graficoHistograma" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg">
 
-
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title text-info text-center">Histograma da Imagem</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <nvd3 options='options' data='data'></nvd3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -75,7 +71,7 @@
                     <!--<button ng-click="" class="btn btn-primary button-left">teste6</button>-->
                 <!--</div>-->
                 <div class="col-md-10 btn-group-vertical btn-left">
-                    <button ng-click="" class="btn btn-primary button-left2">Histograma das imagens</button>
+                    <button class="btn btn-primary button-left2" type="button" data-toggle="modal" data-target="#graficoHistograma">Histograma das imagens</button>
                     <button ng-click="" class="btn btn-primary button-left2">Grafico Precisão x Revocacão</button>
                     <button ng-click="" class="btn btn-primary button-left2">teste5</button>
                     <button ng-click="" class="btn btn-primary button-left2">teste2</button>
