@@ -22,7 +22,7 @@ public class RTCModel {
 
     public List<String> listarImagens() {
         List<String> results = new ArrayList<String>();
-        File folder = new File("~/Projetos/pidtp/src/main/webapp/assets/images/imageorig");
+        File folder = new File("~/src/main/webapp/assets/images/imageorig");
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {

@@ -93,7 +93,7 @@ angular.module('pidtpApp')
                     bottom: 40,
                     left: 55
                 },
-                width: 850,
+                //width: 'auto',
                 //x: function(d){ return d.x; },
                 //y: function(d){ return d.y; },
                 useInteractiveGuideline: true,
@@ -108,9 +108,9 @@ angular.module('pidtpApp')
                 },
                 yAxis: {
                     axisLabel: 'Voltage (v)',
-                    tickFormat: function(d){
-                        return d3.format('.02f')(d);
-                    },
+                    //tickFormat: function(d){
+                    //    return d3.format('.02f')(d);
+                    //},
                     axisLabelDistance: -10
                 },
                 callback: function(chart){
