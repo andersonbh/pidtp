@@ -1,13 +1,13 @@
 <div>
-    <h2>Users</h2>
+    <h2>Usuários</h2>
     <jh-alert></jh-alert>
     <div class="container">
         <div class="row">
-          <div class="col-md-4">
-              <button class="btn btn-primary" ui-sref="user-management.new">
-                  <span class="glyphicon glyphicon-flash"></span> <span>Create a new User</span>
-              </button>
-          </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" ui-sref="user-management.new">
+                    <span class="glyphicon glyphicon-flash"></span> <span>Criar novo usuário</span>
+                </button>
+            </div>
         </div>
     </div>
     <div class="table-responsive">
@@ -18,11 +18,11 @@
                 <th>Login</th>
                 <th>Email</th>
                 <th></th>
-                
-                <th>Profiles</th>
-                <th>CreatedDate</th>
-                <th>LastModifiedBy</th>
-                <th>LastModifiedDate</th>
+
+                <th>Perfis</th>
+                <th>Data de Criação</th>
+                <th>Última Modificação Por</th>
+                <th>Data da Última Modificação</th>
                 <th></th>
             </tr>
             </thead>
@@ -33,11 +33,11 @@
                 <td>{{user.email}}</td>
                 <td>
                     <span class="label label-danger" ng-click="setActive(user, true)" ng-show="!user.activated"
-                          style="cursor: pointer;">Desactivated</span>
+                          style="cursor: pointer;">Desativado</span>
                     <span class="label label-success" ng-click="setActive(user, false)" ng-show="user.activated"
-                          style="cursor: pointer;">Activated</span>
+                          style="cursor: pointer;">Ativado</span>
                 </td>
-                
+
                 <td>
                     <div ng-repeat="authority in user.authorities">
                         <span class="label label-info">{{ authority }}</span>
