@@ -14,26 +14,28 @@ import java.util.List;
  * Created by anderson on 02/03/16.
  */
 @Service
-public class RTCModel {
+public class RICModel {
     @Autowired
     protected DAO DAO;
     @PersistenceContext
     protected EntityManager em;
 
-    public List<String> listarImagens() {
-        List<String> results = new ArrayList<String>();
-        File folder = new File("~/src/main/webapp/assets/images/imageorig");
+
+    public String listarImagens() {
+
+        String bla = "dsadsa";
+        File folder = new File("../../../webbapp/assets/images/imageorig");
         File[] listOfFiles = folder.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                results.add(listOfFiles[i].getName());
-                System.out.println("File " + listOfFiles[i].getName());
-            } else if (listOfFiles[i].isDirectory()) {
-                System.out.println("Directory " + listOfFiles[i].getName());
-            }
-        }
-        return results;
+//        for (int i = 0; i < listOfFiles.length; i++) {
+//            if (listOfFiles[i].isFile()) {
+//                results.add(listOfFiles[i].getName());
+//                System.out.println("File " + listOfFiles[i].getName());
+//            } else if (listOfFiles[i].isDirectory()) {
+//                System.out.println("Directory " + listOfFiles[i].getName());
+//            }
+//        }
+        return bla;
     }
 //    public void manipularImagem(Imagem img) {
 //        DAO.persist(img);

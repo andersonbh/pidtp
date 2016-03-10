@@ -4,7 +4,7 @@
             <div class="col-md-8">
                 <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
                     <!--<div ng-hide="desenhando || imagemEnviada">-->
-                        <!--<img ng-src="{{imagem.caminho}}" id="blah" style="width: {{imagem.width}}px; height: {{imagem.height}}px"/>-->
+                    <!--<img ng-src="{{imagem.caminho}}" id="blah" style="width: {{imagem.width}}px; height: {{imagem.height}}px"/>-->
                     <!--</div>-->
                     <!--Div do desenho-->
                     <div>
@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <!--<div class="desenhar" >-->
-                        <!--<button ng-click="desenhando = true;">Desenhar Imagem</button>-->
+                    <!--<button ng-click="desenhando = true;">Desenhar Imagem</button>-->
                     <!--</div>-->
                     <div class="enviarImg">
                         <input ng-click="imagemEnviada = true;" type='file' id="imgEnv" accept="image/*"/>
@@ -57,21 +57,36 @@
                             </div>
                         </div>
                     </div>
+                    <div class="rolagemTabelaHorizontal">
+                        <table class="table table-bordered table-responsive">
+
+                            <tr>
+                                <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order)"
+                                    ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
+                                    ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)">
+                                    <img height="100" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <!--<div class="col-md-6 btn-group-vertical">-->
-                    <!--<button ng-click="" class="btn btn-primary button-left">teste1</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left">teste3</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left">teste5</button>-->
+                <!--<button ng-click="" class="btn btn-primary button-left">teste1</button>-->
+                <!--<button ng-click="" class="btn btn-primary button-left">teste3</button>-->
+                <!--<button ng-click="" class="btn btn-primary button-left">teste5</button>-->
                 <!--</div>-->
                 <!--<div class="col-md-6 btn-group-vertical">-->
-                    <!--<button ng-click="" class="btn btn-primary button-left">teste2</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left">teste4</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left">teste6</button>-->
+                <!--<button ng-click="" class="btn btn-primary button-left">teste2</button>-->
+                <!--<button ng-click="" class="btn btn-primary button-left">teste4</button>-->
+                <!--<button ng-click="" class="btn btn-primary button-left">teste6</button>-->
                 <!--</div>-->
                 <div class="col-md-10 btn-group-vertical btn-left">
-                    <button class="btn btn-primary button-left2" type="button" data-toggle="modal" data-target="#graficoHistograma">Histograma das imagens</button>
+                    <button class="btn btn-primary button-left2" type="button" data-toggle="modal"
+                            data-target="#graficoHistograma">Histograma das imagens
+                    </button>
                     <button ng-click="" class="btn btn-primary button-left2">Grafico Precisão x Revocacão</button>
                     <button ng-click="" class="btn btn-primary button-left2">teste5</button>
                     <button ng-click="" class="btn btn-primary button-left2">teste2</button>

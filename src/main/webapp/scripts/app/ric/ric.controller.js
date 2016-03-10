@@ -18,6 +18,10 @@ angular.module('pidtpApp')
             this.version--;
         };
 
+        $scope.selectImagem = function (imagem) {
+            $scope.selectedImagem = imagem;
+        };
+
         $scope.imagem = {
             width: 710,
             height: 600
@@ -89,10 +93,16 @@ angular.module('pidtpApp')
             button.href = dataURL;
         }
 
-        $http.get('/rtc').
+        $http.get('/ric').
         success(function(data) {
-            $scope.nomeImagens = data.data;
+            $scope.imagens = data.data;
+            console.log(data.data);
         });
+
+        //$scope.sensitiveSearch = function(imagem) {
+        //
+        //};
+
 
         console.log($scope.nomeImagens);
 
