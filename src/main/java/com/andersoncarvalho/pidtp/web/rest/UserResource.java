@@ -125,11 +125,11 @@ public class UserResource {
         log.debug("REST request to update User : {}", managedUserDTO);
         Optional<User> existingUser = userRepository.findOneByEmail(managedUserDTO.getEmail());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDTO.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "E-mail already in use")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "emailexists", "E-mail já etá em uso")).body(null);
         }
         existingUser = userRepository.findOneByLogin(managedUserDTO.getLogin());
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserDTO.getId()))) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "userexists", "Login already in use")).body(null);
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("user-management", "userexists", "Login já está em uso")).body(null);
         }
         return userRepository
             .findOneById(managedUserDTO.getId())
@@ -146,7 +146,7 @@ public class UserResource {
                     authority -> authorities.add(authorityRepository.findOne(authority))
                 );
                 return ResponseEntity.ok()
-                    .headers(HeaderUtil.createAlert("A user is updated with identifier " + managedUserDTO.getLogin(), managedUserDTO.getLogin()))
+                    .headers(HeaderUtil.createAlert("O usuario foi atualizado: " + managedUserDTO.getLogin(), managedUserDTO.getLogin()))
                     .body(new ManagedUserDTO(userRepository
                         .findOne(managedUserDTO.getId())));
             })

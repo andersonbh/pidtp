@@ -122,11 +122,6 @@ angular.module('pidtpApp')
             });
         };
 
-        //$scope.sensitiveSearch = function(imagem) {
-        //
-        //};
-
-
         //Metodos para o grafico ###########################
         $scope.options = {
             chart: {
@@ -287,7 +282,7 @@ angular.module('pidtpApp')
                 {
                     values: precisaoXrevocacao,      //values - represents the array of {x,y} data points
                     key: 'Precisão x Revocação', //key  - the name of the series.
-                    color: '#FF0000',  //color - optional: choose your own line color.
+                    color: '#FF0000'  //color - optional: choose your own line color.
                     //area: true
                 }
             ];

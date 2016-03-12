@@ -3,8 +3,8 @@ package com.andersoncarvalho.pidtp.controller;
 /**
  * Created by anderson on 02/03/16.
  */
-import com.andersoncarvalho.pidtp.RTCException;
-import com.andersoncarvalho.pidtp.RTCRuntimeException;
+import com.andersoncarvalho.pidtp.RICException;
+import com.andersoncarvalho.pidtp.RICRuntimeException;
 import com.andersoncarvalho.pidtp.controller.data.DataResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,7 +21,7 @@ public abstract class AbstractController {
         ex.printStackTrace();
         return response;
     }
-    @ExceptionHandler({RTCRuntimeException.class, RTCException.class})
+    @ExceptionHandler({RICRuntimeException.class, RICException.class})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public DataResponse handleApplicationExceptions(Exception ex){

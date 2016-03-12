@@ -8,7 +8,7 @@ angular.module('pidtpApp')
                 url: '/error',
                 data: {
                     authorities: [],
-                    pageTitle: 'Error page!'
+                    pageTitle: 'Erro!'
                 },
                 views: {
                     'content@': {
@@ -16,7 +16,7 @@ angular.module('pidtpApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             })
             .state('accessdenied', {
@@ -31,7 +31,7 @@ angular.module('pidtpApp')
                     }
                 },
                 resolve: {
-                    
+
                 }
             });
     });

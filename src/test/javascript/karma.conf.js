@@ -27,6 +27,11 @@ module.exports = function (config) {
             'main/webapp/bower_components/json3/lib/json3.js',
             'main/webapp/bower_components/ng-file-upload/ng-file-upload.js',
             'main/webapp/bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js',
+            'main/webapp/bower_components/angular-canvas-painter/dist/angular-canvas-painter.js',
+            'main/webapp/bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
+            'main/webapp/bower_components/d3/d3.js',
+            'main/webapp/bower_components/nvd3/build/nv.d3.js',
+            'main/webapp/bower_components/angular-nvd3/dist/angular-nvd3.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',
