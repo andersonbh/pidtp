@@ -37,15 +37,15 @@
                     <!--<div class="desenhar" >-->
                     <!--<button ng-click="desenhando = true;">Desenhar Imagem</button>-->
                     <!--</div>-->
-                    <p>
                     <div class="enviarImg">
                         <input ng-click="imagemEnviada = true;" type='file' id="imgEnv" accept="image/*"/>
+                        <select ng-init="selectedFiltro = filtroRolagem[0]" ng-model="selectedFiltro" ng-options="filtro as filtro.valor for filtro in filtroRolagem"></select>
                     </div>
                     <div class="rolagemTabelaHorizontal">
                         <table class="table table-bordered table-responsive">
 
                             <tr>
-                                <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order)"
+                                <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order | filter:rolagemFilter)"
                                     ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
                                     ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)">
                                     <img height="100" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
@@ -66,6 +66,25 @@
                                 </div>
                                 <div class="modal-body">
                                     <nvd3 options='options' data='data'></nvd3>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="graficosModais" class="modal fade" role="dialog">
+                        <div class="modal-dialog modal-lg">
+
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title text-info text-center">Imagem: {{selectedImagem.nome}}</h4>
+                                </div>
+                                <div class="modal-body">
+                                        <img height="300" ng-src="{{ selectedImagem.caminho }}" alt="{{ selectedImagem.nome }}"/>
+                                        <nvd3 options='optionsCinza' data='dataCinza'></nvd3>
+                                        <nvd3 options='optionsPrecisao' data='dataPrecisao'></nvd3>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
