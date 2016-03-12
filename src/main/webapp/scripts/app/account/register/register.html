@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                     <label class="control-label" for="login">Usuário</label>
-                    <input type="text" class="form-control" id="login" name="login" placeholder="Your username"
+                    <input type="text" class="form-control" id="login" name="login" placeholder="Seu Usuário"
                            ng-model="registerAccount.login" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[a-z0-9]*$/" required>
                     <div ng-show="form.login.$dirty && form.login.$invalid">
                         <p class="help-block"
@@ -51,7 +51,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="email">E-mail</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Your e-mail"
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Seu e-mail"
                            ng-model="registerAccount.email" ng-minlength=5 ng-maxlength=100 required>
                     <div ng-show="form.email.$dirty && form.email.$invalid">
                         <p class="help-block"
@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="password">Nova Senha</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="New password"
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Nova Senha"
                            ng-model="registerAccount.password" ng-minlength=5 ng-maxlength=50 required>
                     <div ng-show="form.password.$dirty && form.password.$invalid">
                         <p class="help-block"
@@ -94,7 +94,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label" for="confirmPassword">Confirme sua senha</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm the new password"
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirme sua nova senha"
                            ng-model="confirmPassword" ng-minlength=5 ng-maxlength=50 required>
                     <div ng-show="form.confirmPassword.$dirty && form.confirmPassword.$invalid">
                         <p class="help-block"
@@ -116,7 +116,7 @@
             </form>
             <p></p>
             <div class="alert alert-warning">
-                If you want to <a class="alert-link" href="#/login">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
+                Se você quiser fazer <a class="alert-link" href="#/login">login</a>, você pode tentar as contas padrões:<br/>- Administrador (login="admin" e senha="admin") <br/>- Usuário (login="user" e senha="user").
             </div>
         </div>
     </div>
