@@ -1,14 +1,16 @@
 <div ng-cloak>
     <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-8">
-                <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl">
+        <div class=" ng-scope ng-binding" ng-controller="RICController as ctrl" ng-init="iniciar()">
+            <div class="col-md-12 " >
+                <div class="col-md-8 imagemPrincipal">
+
                     <!--<div ng-hide="desenhando || imagemEnviada">-->
                     <!--<img ng-src="{{imagem.caminho}}" id="blah" style="width: {{imagem.width}}px; height: {{imagem.height}}px"/>-->
                     <!--</div>-->
                     <!--Div do desenho-->
                     <div>
-                        <div version="ctrl.version" pw-canvas
+                        <input class="btn btn-primary" type='file' id="imgEnv" accept="image/*"/>
+                        <div class="voffset2" version="ctrl.version" pw-canvas
                              options="{undo: true,
                           color: corSelecionada,
                           width: imagem.width, height: imagem.height,
@@ -19,40 +21,18 @@
                         <div pw-color-selector="selectcolors" color="corSelecionada"></div>
                         <div>
                             <input colorpicker ng-model="hexColor" placeholder="Cor Hexadecimal" type="text"/>
-                            <button ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar cor</button>
-                        </div>
-                        <div><label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
-                            <input type="range" id="tamanho" ng-model="tamanhoLinha" max="50">
-                        </div>
-                        <div class="undo">
-                            <button ng-click="ctrl.undo()"
-                                    ng-disabled="ctrl.version < 1">Desfazer (Versão {{ctrl.version}})
+                            <button class="btn btn-primary" ng-click="adicionarCor();" ng-disabled="!hexColor">Adicionar
+                                cor
                             </button>
+                            <button class="btn btn-primary" ng-click="ctrl.undo()" ng-disabled="ctrl.version < 1">
+                                Desfazer desenho (Versão {{ctrl.version}})
+                            </button>
+                            <a class="btn btn-primary" ng-click="fazerDownload()" id="btn-download">Download</a>
                         </div>
-                        <br>
-                        <div>
-                            <a class="btn btn-info" ng-click="fazerDownload()" id="btn-download">Download</a>
+                        <div class="voffset2">
+                            <label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
+                            <input class="form-control" type="range" id="tamanho" ng-model="tamanhoLinha" max="100">
                         </div>
-                    </div>
-                    <!--<div class="desenhar" >-->
-                    <!--<button ng-click="desenhando = true;">Desenhar Imagem</button>-->
-                    <!--</div>-->
-                    <div class="enviarImg">
-                        <input ng-click="imagemEnviada = true;" type='file' id="imgEnv" accept="image/*"/>
-                        <select ng-init="selectedFiltro = filtroRolagem[0]" ng-model="selectedFiltro" ng-options="filtro as filtro.valor for filtro in filtroRolagem"></select>
-                    </div>
-                    <div class="rolagemTabelaHorizontal">
-                        <table class="table table-bordered table-responsive">
-
-                            <tr>
-                                <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order | filter:rolagemFilter)"
-                                    ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
-                                    ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)">
-                                    <img height="100" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
-                                </td>
-                            </tr>
-
-                        </table>
                     </div>
 
                     <!-- MODAIS -->
@@ -82,9 +62,10 @@
                                     <h4 class="modal-title text-info text-center">Imagem: {{selectedImagem.nome}}</h4>
                                 </div>
                                 <div class="modal-body">
-                                        <img height="300" ng-src="{{ selectedImagem.caminho }}" alt="{{ selectedImagem.nome }}"/>
-                                        <nvd3 options='optionsCinza' data='dataCinza'></nvd3>
-                                        <nvd3 options='optionsPrecisao' data='dataPrecisao'></nvd3>
+                                    <img height="300" ng-src="{{ selectedImagem.caminho }}"
+                                         alt="{{ selectedImagem.nome }}"/>
+                                    <nvd3 options='optionsCinza' data='dataCinza'></nvd3>
+                                    <nvd3 options='optionsPrecisao' data='dataPrecisao'></nvd3>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
@@ -92,16 +73,43 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="col-md-10 btn-group-vertical btn-left">
+                        <button ng-click="niveisDeCinza()" class="btn btn-primary button-left2" type="button">Histograma
+                            da Imagem
+                        </button>
+                        <button ng-click="precisaoRevocacao()" class="btn btn-primary button-left2" type="button">
+                            Grafico
+                            Precisão x Revocacão
+                        </button>
+                        <!--<button ng-click="" class="btn btn-primary button-left2">teste5</button>-->
+                        <!--<button ng-click="" class="btn btn-primary button-left2">teste2</button>-->
+                        <!--<button ng-click="" class="btn btn-primary button-left2">teste4</button>-->
+                        <!--<button ng-click="" class="btn btn-primary button-left2">teste6</button>-->
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="col-md-10 btn-group-vertical btn-left">
-                    <button ng-click="niveisDeCinza()" class="btn btn-primary button-left2" type="button">Histograma das imagens</button>
-                    <button ng-click="precisaoRevocacao()" class="btn btn-primary button-left2" type="button">Grafico Precisão x Revocacão</button>
-                    <!--<button ng-click="" class="btn btn-primary button-left2">teste5</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left2">teste2</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left2">teste4</button>-->
-                    <!--<button ng-click="" class="btn btn-primary button-left2">teste6</button>-->
+            <div class="col-md-12">
+                <div class="voffset2">
+                    <label for="numeroImagens">Selecione o número de imagens a serem visualizadas:</label>
+                    <select class="form-control" id="numeroImagens" ng-init="selectedFiltro = filtroRolagem[0]"
+                            ng-model="selectedFiltro"
+                            ng-options="filtro as filtro.valor for filtro in filtroRolagem"></select>
+                </div>
+                <div class="rolagemTabelaHorizontal">
+                    <table class="table table-bordered table-responsive">
+
+                        <tr>
+                            <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order | filter:rolagemFilter)"
+                                ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
+                                ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)">
+                                <img height="200" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
+                            </td>
+                        </tr>
+
+                    </table>
                 </div>
             </div>
         </div>

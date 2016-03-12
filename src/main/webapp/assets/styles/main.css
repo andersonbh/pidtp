@@ -25,10 +25,6 @@ body {
     border: 2px solid #000;
 }
 
-.undo {
-    margin-top: 20px;
-}
-
 .undo > button {
     background-color: orange;
     color: white;
@@ -56,20 +52,6 @@ body {
 .desenhar > button[disabled] {
     background-color: #aaa;
 }
-
-.enviarImg  {
-    margin-top: 20px;
-}
-
-.enviarImg  > input {
-    background-color: #136f1a;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-}
-
-
 
 /* ==========================================================================
 Hide ng-cloak on page load, https://docs.angularjs.org/api/ng/directive/ngCloak
@@ -138,7 +120,7 @@ Browser Upgrade Prompt
     display: inline-block;
     width: 347px;
     height: 497px;
-    background: url("../images/hipster.png") no-repeat center top;
+    background: url("../images/logo.png") no-repeat center top;
     background-size: contain;
 }
 
@@ -364,4 +346,10 @@ ul#strengthBar {
 .rolagemTabelaHorizontal {
     position: relative;
     overflow: auto;
+}
+
+.imagemPrincipal {
+    border:solid 2px #d4d4d4;
+    padding : 10px;
+
 }
