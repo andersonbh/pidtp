@@ -1,6 +1,11 @@
 'use strict';
 
 angular.module('pidtpApp')
+.filter('slice', function() {
+    return function(arr, end) {
+        return arr.slice(0, end);
+    };
+})
     .controller('RICController', function ($scope, $http, Principal, $state) {
 
         /**
@@ -204,6 +209,126 @@ angular.module('pidtpApp')
         };
         //#######################################################
 
+        $scope.filtroRolagem = [
+            {valor: 5},
+            {valor: 10},
+            {valor: 15},
+            {valor :30},
+            {valor: 100},
+            {valor: 1000}];
+
+        // Filtro para mostrar numero de imagens na Rolagem ################333
+        $scope.rolagemFilter = function(imagens) {
+            console.log($scope.selectedFiltro.valor);
+
+            if (imagens.id >= $scope.selectedFiltro.valor) {
+                    return;
+            }
+            return imagens;
+        };
+        //#####################################################################
+
+        $scope.vizualizarImagem = function(imagem){
+            //Setar valores Grafico Precisao
+            $scope.optionsPrecisao = {
+                chart: {
+                    type: 'lineChart',
+                    height: 450,
+                    margin : {
+                        top: 20,
+                        right: 20,
+                        bottom: 40,
+                        left: 55
+                    },
+                    useInteractiveGuideline: true,
+                    xAxis: {
+                        axisLabel: 'Revocação'
+                    },
+                    yAxis: {
+                        axisLabel: 'Precisão',
+                        tickFormat: function(d){
+                            return d3.format('.02f')(d);
+                        },
+                        axisLabelDistance: -10
+                    },
+                    title: {
+                        enable: true,
+                        text: 'Precisão x Revocação'
+                    }
+                }
+            };
+
+            var precisaoXrevocacao = [];
+            precisaoXrevocacao.push({x: 0.1,y: 0.9});
+            precisaoXrevocacao.push({x: 0.2,y: 0.7});
+            precisaoXrevocacao.push({x: 0.3,y: 0.6});
+            precisaoXrevocacao.push({x: 0.4,y: 0.5});
+            precisaoXrevocacao.push({x: 0.5,y: 0.4});
+            precisaoXrevocacao.push({x: 0.6,y: 0.3});
+            precisaoXrevocacao.push({x: 0.7,y: 0.3});
+            precisaoXrevocacao.push({x: 0.8,y: 0.2});
+            precisaoXrevocacao.push({x: 0.9,y: 0.2});
+
+            $scope.dataPrecisao = [
+                {
+                    values: precisaoXrevocacao,      //values - represents the array of {x,y} data points
+                    key: 'Precisão x Revocação', //key  - the name of the series.
+                    color: '#FF0000',  //color - optional: choose your own line color.
+                    //area: true
+                }
+            ];
+            //###############################
+            //Setar Valores Grafico Niveis de Cinza
+            $scope.optionsCinza = {
+                chart: {
+                    type: 'lineChart',
+                    height: 450,
+                    margin : {
+                        top: 20,
+                        right: 20,
+                        bottom: 40,
+                        left: 55
+                    },
+                    useInteractiveGuideline: true,
+                    xAxis: {
+                        axisLabel: 'Time (ms)'
+                    },
+                    yAxis: {
+                        axisLabel: 'Voltage (v)',
+                        tickFormat: function(d){
+                            return d3.format('.02f')(d);
+                        },
+                        axisLabelDistance: -10
+                    },
+                    title: {
+                        enable: true,
+                        text: 'Níveis de Cinza'
+                    }
+                }
+            };
+
+            var niveisCinza = [];
+            niveisCinza.push({x: 0,y: 0.068});
+            niveisCinza.push({x: 1/7,y: 0.196});
+            niveisCinza.push({x: 2/7,y: 0.296});
+            niveisCinza.push({x: 3/7,y: 0.209});
+            niveisCinza.push({x: 4/7,y: 0.122});
+            niveisCinza.push({x: 5/7,y: 0.048});
+            niveisCinza.push({x: 6/7,y: 0.033});
+            niveisCinza.push({x: 1,y: 0.028});
+
+            $scope.dataCinza = [
+                {
+                    values: niveisCinza,      //values - represents the array of {x,y} data points
+                    key: 'Níveis de Cinza', //key  - the name of the series.
+                    color: '#000000',  //color - optional: choose your own line color.
+                    area: true
+                }
+            ];
+            //##########################################
+            $('#graficosModais').modal('show');
+
+        }
 
 
     });
