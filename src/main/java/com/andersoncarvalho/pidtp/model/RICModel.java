@@ -20,6 +20,7 @@ public class RICModel {
     @PersistenceContext
     protected EntityManager em;
 
+
     public String listarImagens() {
 
         String bla = "dsadsa";

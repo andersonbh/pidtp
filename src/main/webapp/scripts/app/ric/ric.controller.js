@@ -104,8 +104,6 @@ angular.module('pidtpApp')
         //};
 
 
-        console.log($scope.nomeImagens);
-
         //Metodos para o grafico ###########################
         $scope.options = {
             chart: {
@@ -117,7 +115,7 @@ angular.module('pidtpApp')
                     bottom: 40,
                     left: 55
                 },
-                width: 850,
+                //width: 'auto',
                 //x: function(d){ return d.x; },
                 //y: function(d){ return d.y; },
                 useInteractiveGuideline: true,
@@ -128,18 +126,17 @@ angular.module('pidtpApp')
                 //    tooltipHide: function(e){ console.log("tooltipHide"); }
                 //},
                 xAxis: {
-                    axisLabel: 'Time (ms)'
+
                 },
                 yAxis: {
-                    axisLabel: 'Voltage (v)',
                     tickFormat: function(d){
                         return d3.format('.02f')(d);
                     },
                     axisLabelDistance: -10
                 },
-                callback: function(chart){
-                    console.log("!!! lineChart callback !!!");
-                }
+                //callback: function(chart){
+                //    console.log("!!! lineChart callback !!!");
+                //}
             }//,
             //title: {
             //    enable: true,
@@ -147,40 +144,66 @@ angular.module('pidtpApp')
             //}
         };
 
-        $scope.data = sinAndCos();
 
-        /*Random Data Generator */
-        function sinAndCos() {
-            var sin = [],sin2 = [],
-                cos = [];
+        $scope.niveisDeCinza = function() {
+            $scope.modalTitulo = 'Níveis de Cinza';
 
-            //Data is represented as an array of {x,y} pairs.
-            for (var i = 0; i < 100; i++) {
-                sin.push({x: i, y: Math.sin(i/10)});
-                sin2.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) *0.25 + 0.5});
-                cos.push({x: i, y: .5 * Math.cos(i/10+ 2) + Math.random() / 10});
-            }
+            var niveisCinza = [];
+            niveisCinza.push({x: 0,y: 0.068});
+            niveisCinza.push({x: 1/7,y: 0.196});
+            niveisCinza.push({x: 2/7,y: 0.296});
+            niveisCinza.push({x: 3/7,y: 0.209});
+            niveisCinza.push({x: 4/7,y: 0.122});
+            niveisCinza.push({x: 5/7,y: 0.048});
+            niveisCinza.push({x: 6/7,y: 0.033});
+            niveisCinza.push({x: 1,y: 0.028});
+
+            $scope.options.chart.xAxis.axisLabel = 'Time (ms)';
+            $scope.options.chart.yAxis.axisLabel = 'Voltage (v)';
 
             //Line chart data should be sent as an array of series objects.
-            return [
+            $scope.data = [
                 {
-                    values: sin,      //values - represents the array of {x,y} data points
-                    key: 'Sine Wave', //key  - the name of the series.
-                    color: '#ff7f0e'  //color - optional: choose your own line color.
-                },
-                {
-                    values: cos,
-                    key: 'Cosine Wave',
-                    color: '#2ca02c'
-                },
-                {
-                    values: sin2,
-                    key: 'Another sine wave',
-                    color: '#7777ff',
+                    values: niveisCinza,      //values - represents the array of {x,y} data points
+                    key: 'Níveis de Cinza', //key  - the name of the series.
+                    color: '#000000',  //color - optional: choose your own line color.
+                    area: true
                 }
             ];
+
+            $('#graficos').modal('show');
+        };
+
+        $scope.precisaoRevocacao = function() {
+            $scope.modalTitulo = 'Precisão x Revocação';
+
+            var precisaoXrevocacao = [];
+            precisaoXrevocacao.push({x: 0.1,y: 0.9});
+            precisaoXrevocacao.push({x: 0.2,y: 0.7});
+            precisaoXrevocacao.push({x: 0.3,y: 0.6});
+            precisaoXrevocacao.push({x: 0.4,y: 0.5});
+            precisaoXrevocacao.push({x: 0.5,y: 0.4});
+            precisaoXrevocacao.push({x: 0.6,y: 0.3});
+            precisaoXrevocacao.push({x: 0.7,y: 0.3});
+            precisaoXrevocacao.push({x: 0.8,y: 0.2});
+            precisaoXrevocacao.push({x: 0.9,y: 0.2});
+
+            $scope.options.chart.xAxis.axisLabel = 'Revocação';
+            $scope.options.chart.yAxis.axisLabel = 'Precisão';
+            //Line chart data should be sent as an array of series objects.
+            $scope.data = [
+                {
+                    values: precisaoXrevocacao,      //values - represents the array of {x,y} data points
+                    key: 'Precisão x Revocação', //key  - the name of the series.
+                    color: '#FF0000',  //color - optional: choose your own line color.
+                    //area: true
+                }
+            ];
+
+            $('#graficos').modal('show');
         };
         //#######################################################
+
 
 
     });
