@@ -10,7 +10,7 @@ Depois de instalar o nodeJs, execute os comandos:
 
     npm install
     
-    npm install -g grunt-cli bower yo generator-karma generator-angular generator-jhipster
+    npm install -g grunt-cli bower
     
     bower install
 
