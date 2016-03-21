@@ -60,6 +60,7 @@ public class RICController extends AbstractController {
 
     }
 
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public DataResponse listaImagens(){

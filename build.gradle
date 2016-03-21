@@ -91,6 +91,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.bytedeco', name: 'javacv', version: '1.1'
     compile group: 'io.dropwizard.metrics', name: 'metrics-core'
     compile group: 'io.dropwizard.metrics', name: 'metrics-graphite', version: dropwizard_metrics_version
     compile group: 'io.dropwizard.metrics', name: 'metrics-healthchecks', version: dropwizard_metrics_version
