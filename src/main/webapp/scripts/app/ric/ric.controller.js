@@ -38,6 +38,24 @@ angular.module('pidtpApp')
         };
 
 
+
+        $scope.processarImagem = function(){
+            $http.post("/ric/processar",
+                {
+                    nomeImagem: $scope.selectedImagem.nome,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            })
+        };
+
+
         $scope.hexColor = '#000000';
         //Funcao para adicionar cor na lista de cores
         $scope.adicionarCor = function () {
@@ -238,6 +256,7 @@ angular.module('pidtpApp')
         //#####################################################################
 
         $scope.vizualizarImagem = function (imagem) {
+            $scope.processarImagem();
             //Setar valores Grafico Precisao
             $scope.optionsPrecisao = {
                 chart: {

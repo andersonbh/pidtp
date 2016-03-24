@@ -8,6 +8,7 @@ package com.andersoncarvalho.pidtp.controller;
     import com.andersoncarvalho.pidtp.dao.DAO;
     import com.andersoncarvalho.pidtp.entity.Imagem;
     import com.andersoncarvalho.pidtp.model.RICModel;
+    import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
     import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.context.annotation.Scope;
 
@@ -17,9 +18,15 @@ package com.andersoncarvalho.pidtp.controller;
     import org.springframework.web.multipart.MultipartFile;
 
 
+    import javax.servlet.ServletContext;
+    import javax.servlet.http.HttpServletRequest;
+    import javax.servlet.http.HttpSession;
+    import javax.swing.*;
     import java.io.IOException;
 
+    import java.net.URL;
     import java.sql.SQLException;
+
 
 
 @Controller
@@ -69,4 +76,16 @@ public class RICController extends AbstractController {
         return dados;
     }
 
+    @RequestMapping(value="/processar",method = RequestMethod.POST)
+    @ResponseBody
+    public DataResponse processarImagem(HttpServletRequest request, @RequestParam String nomeImagem){
+        try{
+            String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
+
+            RICModel.processarImagem(caminhoPadrao, nomeImagem);
+            return DataResponse.SUCCESS.setMessage("Imagem processada com sucesso");
+        }catch (Exception ex){
+            return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+        }
+    }
 }

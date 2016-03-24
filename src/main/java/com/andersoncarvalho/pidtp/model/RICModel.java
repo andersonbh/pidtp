@@ -1,11 +1,13 @@
 package com.andersoncarvalho.pidtp.model;
 
+import com.andersoncarvalho.pidtp.misc.ProcessadorImagem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.andersoncarvalho.pidtp.dao.DAO;
 import javax.inject.Scope;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,9 @@ public class RICModel {
     protected DAO DAO;
     @PersistenceContext
     protected EntityManager em;
+
+    //Pega o caminho da pasta webapp
+    private ServletContext servletContext;
 
 
     public String listarImagens() {
@@ -37,7 +42,9 @@ public class RICModel {
 //        }
         return bla;
     }
-//    public void manipularImagem(Imagem img) {
-//        DAO.persist(img);
-//    }
+
+    public void processarImagem(String caminhoPadrao,String nomeImagem){
+        ProcessadorImagem  pi = new ProcessadorImagem(caminhoPadrao ,nomeImagem);
+
+    }
 }
