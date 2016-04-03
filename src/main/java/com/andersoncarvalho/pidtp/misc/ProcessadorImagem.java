@@ -1,15 +1,11 @@
 package com.andersoncarvalho.pidtp.misc;
 
-import org.bytedeco.javacpp.FloatPointer;
 import org.bytedeco.javacpp.opencv_core.*;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
 import static org.bytedeco.javacpp.helper.opencv_imgproc.cvCalcHist;
 import static org.bytedeco.javacpp.opencv_core.*;
 import static org.bytedeco.javacpp.opencv_highgui.*;
@@ -28,139 +24,53 @@ public class ProcessadorImagem {
     //Imagem principal convertida em escala de cinza
     private IplImage imagemPrincipalEscalaCinza;
 
-    //Histograma gerado da Imagem Principal
-    private CvHistogram histograma;
+    //Imagem principal convertida para HSV
+    private IplImage imagemPrincipalHSV;
 
     //Tamanho da Imagem principal
     private CvSize tamanhoDaImagem;
 
-    int numberOfBins = 256;
-    float _minRange = 0.0f;
-    float _maxRange = 255.0f;
+    private int numberOfBins = 256;
+    private float _minRange = 0.0f;
+    private float _maxRange = 255.0f;
 
-    public ProcessadorImagem( String caminhoPadrao, String nomeImagem) {
+    public ProcessadorImagem( String caminhoPadrao, String nomeImagem) throws IOException {
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
-
+        //Carrega a imagem principal como escalas de cinza
         imagemPrincipalEscalaCinza =
             cvLoadImage(caminho, CV_LOAD_IMAGE_GRAYSCALE);
 
-//        getHSVHistogram(imagemPrincipal, 32);
+        // Converte a imagem principal para HSV
+        imagemPrincipalHSV = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvCvtColor(imagemPrincipal, imagemPrincipalHSV, CV_BGR2HSV);
 
-        BufferedImage imagemHistograma = getHistogramImage(getHueHistogram(imagemPrincipal));
-        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +".jpg",imagemHistograma);
-    }
+        //Salva o histograma HSV
+        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_hsv.jpg",getHistogramImage(imagemPrincipalHSV));
 
-    public CvHistogram getHistogram(IplImage image, IplImage mask) {
+        //Salva o histograma de escalas de cinza
+        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_cinza.jpg",getHistogramImage(imagemPrincipalEscalaCinza));
 
-        int dims = 1;
-        int[] sizes = new int[]{numberOfBins};
-        float[][] ranges = new float[][]{new float[]{_minRange, _maxRange}};
-
-        CvHistogram hist = cvCreateHist(dims, sizes, CV_HIST_ARRAY, ranges, 1);
-
-        int accumulate = 0;
-        cvCalcHist(new IplImage[]{image}, hist, accumulate, mask);
-
-        return hist;
+        //Salva o histograma RGB
+        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_rgb.jpg",getHistogramImage(imagemPrincipal));
     }
 
     /**
-     * Fonction pour la reconnaissance faciale
-     * @param image IplImage
-     * @return CvHistogram
+     * Salva a imagem utilizando o javacv
+     * @param caminho
+     * @param image
      */
-    private static CvHistogram getHueHistogram(IplImage image) {
-        if (image == null || image.nChannels() < 1) {
-            new Exception("Erreur!");
-        }
-        IplImage greyImage = cvCreateImage(image.cvSize(), image.depth(), 1);
-        cvCvtColor(image, greyImage, CV_RGB2GRAY);
-
-        //bins and value-range
-        int numberOfBins = 256;
-        float minRange = 0f;
-        float maxRange = 255f;
-        // Allocate histogram object
-        int dims = 1;
-        int[] sizes = new int[]{numberOfBins};
-        int histType = CV_HIST_ARRAY;
-        float[] minMax = new float[]{minRange, maxRange};
-        float[][] ranges = new float[][]{minMax};
-        int uniform = 1;
-        CvHistogram hist = cvCreateHist(dims, sizes, histType, ranges, uniform);
-        // Compute histogram
-        int accumulate = 0;
-        IplImage mask = null;
-        IplImage[] aux = new IplImage[]{greyImage};
-
-        cvCalcHist(aux, hist, accumulate, null);
-        cvNormalizeHist(hist, 1);
-
-        cvGetMinMaxHistValue(hist, minMax, minMax, sizes, sizes);
-        return hist;
-    }
-
-    public CvHistogram getHSVHistogram(final IplImage image, final int minSaturation) {
-
-        // Converte a imagem RGB para HSV
-        IplImage hsvImage = AbstractIplImage.create(cvGetSize(image), image.depth(), 3);
-
-        cvCvtColor(image, hsvImage, CV_BGR2HSV);
-
-        // Divide os 3 canais em 3 imagens
-        IplImage[] hsvChannels = splitChannels(hsvImage);
-        IplImage saturationMask = null;
-
-        if (minSaturation > 0) {
-            saturationMask = AbstractIplImage.create(cvGetSize(hsvImage)
-                , IPL_DEPTH_8U, 1);
-            cvThreshold(hsvChannels[1], saturationMask, minSaturation, 255
-                , CV_THRESH_BINARY);
-        }
-
-        // Compute histogram of the hue channel
-        return getHistogram(hsvChannels[0], saturationMask);
-
-    }
-
-    public CvHistogram getRGBHistogram(final IplImage image, final int minSaturation) {
-
-
-        // Split the 3 channels into 3 images
-        IplImage[] hsvChannels = splitChannels(image);
-        IplImage saturationMask = null;
-
-        if (minSaturation > 0) {
-            saturationMask = AbstractIplImage.create(cvGetSize(image)
-                , IPL_DEPTH_8U, 1);
-            cvThreshold(hsvChannels[1], saturationMask, minSaturation, 255
-                , CV_THRESH_BINARY);
-        }
-
-        // Compute histogram of the hue channel
-        return getHistogram(hsvChannels[0], saturationMask);
-
-    }
-
-    private static IplImage[] splitChannels(final IplImage src) {
-
-        CvSize size = cvGetSize(src);
-
-        IplImage channel0 = AbstractIplImage.create(size, src.depth(), 1);
-        IplImage channel1 = AbstractIplImage.create(size, src.depth(), 1);
-        IplImage channel2 = AbstractIplImage.create(size, src.depth(), 1);
-
-        cvSplit(src, channel0, channel1, channel2, null);
-
-        return new IplImage[]{channel0, channel1, channel2};
-    }
-
     public void salvarArquivo(String caminho, IplImage image) {
         cvSaveImage(caminho, image);
     }
 
+
+    /**
+     * Salva a imagem utilizando o bufferedimage padrao do java.
+     * @param caminho
+     * @param image
+     */
     public void salvarArquivo(String caminho, BufferedImage image) {
         File outputfile = new File(caminho);
         try {
@@ -171,52 +81,148 @@ public class ProcessadorImagem {
     }
 
     /**
-     * Computes histogram of an image.
-     * @return histogram represented as an array
+     * Obtem os 3 canais da imagem (RGB, BGR, HSV) e retorna os mesmos em um array
+     * @param image
+     * @return
      */
-    public float [] getHistogramAsArray(CvHistogram histograma){
+    public static IplImage [] splitChannels(IplImage image) {
+        CvSize size = image.cvSize();
+        int depth = image.depth();
 
-        // Extract values to an array
-        float[] dest = new float[numberOfBins];
-        for (int bin = 0; bin < numberOfBins; bin++) {
-            dest[bin] = cvQueryHistValue_1D(histograma, bin);
+        IplImage [] imageArray;
+
+        if(image.nChannels() >= 3){
+            IplImage channel0 = IplImage.create(size, depth, 1);
+            IplImage channel1 = IplImage.create(size, depth, 1);
+            IplImage channel2 = IplImage.create(size, depth, 1);
+
+            cvSplit(image, channel0, channel1, channel2, null);
+
+            imageArray = new IplImage[]{channel0, channel1, channel2};
+
+        } else{
+            imageArray = new IplImage[]{image};
         }
 
-        // Release the memory allocated for histogram
-        cvReleaseHist(histograma);
+        return imageArray;
+    }
+
+    /**
+     * @param image imagem de entrada
+     * @param mask mascara opcional
+     * @return OpenCV histograma
+     */
+    public CvHistogram getHistogram(IplImage image, IplImage mask) {
+        // Aloca o objeto do histograma
+        int dims = 1;
+        int[] sizes = new int[] { numberOfBins };
+        int histType = CV_HIST_ARRAY;
+        //        ranges = Array(Array(_minRange, _maxRange));
+        float[] minMax = new float[] { _minRange, _maxRange };
+        float[][] ranges = new float[][] { minMax };
+        CvHistogram hist = cvCreateHist(dims, sizes, histType, ranges, 1);
+
+        // Calcula o histograma
+        int accumulate = 0;
+        IplImage [] iplArr = splitChannels(image);
+
+        if(iplArr != null){
+            cvCalcHist(iplArr, hist, accumulate, mask);
+        }
+
+        return hist;
+    }
+
+    /**
+     * Calcula o histograma de uma imagem
+     * @param image imagem de entrada (principal)
+     * @return retorna o histograma como um vetor
+     */
+    public float [] getHistogramAsArray(IplImage image){
+        // Cria e calcula o histograma da imagem recebida como parametro
+        CvHistogram histogram = getHistogram(image, null);
+
+        // Extrai os valores para um array
+        float[] dest = new float[numberOfBins];
+        for (int bin = 0; bin < numberOfBins; bin++) {
+            dest[bin] = cvQueryHistValue_1D(histogram, bin);
+        }
+
+        // Limpa a memoria alocada para o vetor
+        cvReleaseHist(histogram);
 
         return dest;
     }
 
-    public BufferedImage getHistogramImage(CvHistogram histograma) {
 
-        // Output image size
+    /**
+     * Gera um histograma em formato de imagem
+     * @param image que sera gerada o histograma
+     * @return Imagem do histograma
+     */
+    public BufferedImage getHistogramImage(IplImage image) {
+
+        // Tamanho da imagem de saida
         int width = numberOfBins;
         int height = numberOfBins;
 
-        float[] hist = getHistogramAsArray(histograma);
+        float[] hist = getHistogramAsArray(image);
         // Set highest point to 90% of the number of bins
         double scale = 0.9 / hist.length * height;
 
-        // Create a color image to draw on
+        // Cria uma imagem pra desenhar nela
         BufferedImage canvas = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = canvas.createGraphics();
 
-        // Paint background
+        // Pinta o fundo da imagem em branco
         g.setPaint(Color.WHITE);
         g.fillRect(0, 0, width, height);
 
-        // Draw a vertical line for each bin
+        // Desenha uma linha vertical para cada bin
         g.setPaint(Color.BLUE);
         for (int bin = 0; bin < numberOfBins; bin++) {
             int h = (int) Math.round(hist[bin] * scale);
             g.drawLine(bin, height - 1, bin, height - h - 1);
         }
 
-        // Cleanup
+        // Limpa o graphics2D
         g.dispose();
 
         return canvas;
+    }
+
+    /**
+     * Converte uma IplImage para Tons de Cinza
+     *
+     * @param image Imagem que sera convertida
+     * @return imagem convertida em tons de cinza
+     */
+    public IplImage colorToGrayImage(IplImage image) {
+        IplImage grayImage = IplImage.create(image.cvSize(), IPL_DEPTH_8U, 1);
+        cvCvtColor(image, grayImage, CV_BGR2GRAY);
+
+        return grayImage;
+    }
+
+    /**
+     * Gera uma imagem equalizada, verificar exemplo em http://www.dca.fee.unicamp.br/~alexgs/disciplinas/pi/grupo6/lab3/exercicio_3/index.html
+     * @param src Imagem que sera equalizada
+     * @return retorna a imagem equalizada
+     */
+    public IplImage equalize(IplImage src) {
+        IplImage newImg = src;
+
+        if(src.nChannels() > 1){
+            newImg = colorToGrayImage(src);
+        }
+
+        IplImage dest = IplImage.create(newImg.cvSize(),
+            newImg.depth(), newImg.nChannels());
+
+        // Equaliza o histograma da imagem
+        cvEqualizeHist(newImg, dest);
+
+        return dest;
     }
 
 
