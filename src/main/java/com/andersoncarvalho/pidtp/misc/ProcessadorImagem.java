@@ -235,5 +235,116 @@ public class ProcessadorImagem {
         return dest;
     }
 
+    /**
+     * Calcula a distancia Coseno
+     * @param vetorA imagem 1
+     * @param vetorB imagem 2
+     * @return distancia
+     */
+    public static double calcularCoseno(double[] vetorA, double[] vetorB)
+    {
+        double produto = 0.0;
+        double normA = 0.0;
+        double normB = 0.0;
+        for (int i = 0; i < vetorA.length; i++) {
+            produto += vetorA[i] * vetorB[i];
+            normA += Math.pow(vetorA[i], 2);
+            normB += Math.pow(vetorB[i], 2);
+        }
+        return produto / (Math.sqrt(normA) * Math.sqrt(normB));
+    }
+
+    /**
+     * Calcula a distancia Euclidiana
+     * @param vetor1 imagem 1
+     * @param vetor2 imagem 2
+     * @return distancia
+     */
+    public static double calcularEuclidiana(double[] vetor1, double[] vetor2)
+    {
+
+        double somarParcial = 0.0;
+
+        for (int i = 0; i < vetor1.length; i++)
+        {
+            somarParcial += Math.pow(vetor1[i] - vetor2[i], 2.0);
+        }
+
+        return Math.sqrt(somarParcial);
+    }
+
+    /**
+     * Calcula a distancia de Manhattan
+     * @param vetor1 imagem 1
+     * @param vetor2 imagem 2
+     * @return distancia
+     */
+    public static double calcularManhattan(double[] vetor1, double[] vetor2)
+    {
+
+        double somaParcial = 0.0;
+
+        for (int i = 0; i < vetor1.length; i++)
+        {
+            somaParcial += Math.abs(vetor1[i] - vetor2[i]);
+        }
+
+        return somaParcial;
+    }
+
+    /**
+     *  Entre dois vetores, calcula qual é a maior distância entre seus elementos
+     *
+     * @param vetor1 imagem 1
+     * @param vetor2 imagem 2
+     * @return - em caso de vetores com dimensões diferentes, retorna null
+     */
+    public Double calcularXadrez( double[] vetor1, double[] vetor2 )
+    {
+        Double max = null;
+        if(vetor1.length == vetor2.length)
+        {  max = 0.0;
+            for(int i=0; i< vetor1.length ; i++)
+                if(Math.abs(vetor1[i]- vetor2[i]) > max )
+                    max = Math.abs((vetor1[i]- vetor2[i])*1.0);
+        }
+        return max;
+    }
+
+
+    /**
+     * Pega a taxa de cor Rgb da imagem
+     * @param img imagem que será calculado o vetor
+     * @return taxa de cor da imagem em um vetor RGB
+     */
+    public static double[] getTaxadeCor(BufferedImage img)
+    {
+        long vermelho = 0;
+        long verde = 0;
+        long azul = 0;
+        long contatorDePixels = 0;
+
+        for (int y = 0; y < img.getHeight(); y++)
+        {
+            for (int x = 0; x < img.getWidth(); x++)
+            {
+                int rgb = img.getRGB(x, y);
+                Color c = new Color(rgb, true);
+
+                contatorDePixels++;
+                vermelho += c.getRed();
+                verde += c.getGreen();
+                azul += c.getBlue();
+                // does alpha matter?
+            }
+        }
+
+        long mediaVermelho = vermelho / contatorDePixels;
+        long mediaVerde = verde / contatorDePixels;
+        long mediaAzul = azul / contatorDePixels;
+
+        return new double[]{mediaVermelho, mediaVerde, mediaAzul};
+
+    }
 
 }
