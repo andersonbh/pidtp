@@ -27,6 +27,9 @@ public class ProcessadorImagem {
     //Imagem principal convertida para HSV
     private IplImage imagemPrincipalHSV;
 
+    //Imagem principal convertida para YUV
+    private IplImage imagemPrincipalYUV;
+
     //Tamanho da Imagem principal
     private CvSize tamanhoDaImagem;
 
@@ -45,6 +48,13 @@ public class ProcessadorImagem {
         // Converte a imagem principal para HSV
         imagemPrincipalHSV = cvCreateImage(tamanhoDaImagem, 8, 3);
         cvCvtColor(imagemPrincipal, imagemPrincipalHSV, CV_BGR2HSV);
+
+        // Converte a imagem principal para YUV
+        imagemPrincipalYUV = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvCvtColor(imagemPrincipal, imagemPrincipalYUV, CV_BGR2YCrCb);
+
+        //Salva o histograma YUV
+        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_yuv.jpg",getHistogramImage(imagemPrincipalYUV));
 
         //Salva o histograma HSV
         salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_hsv.jpg",getHistogramImage(imagemPrincipalHSV));
