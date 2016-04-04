@@ -63,12 +63,28 @@ public class RICController extends AbstractController {
             return "{\"success\": true, \"message\": \"" + mensagemRetorno + "\"}";
     }
 
+
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public DataResponse listaImagens(){
         DataData dados = new DataData(true);
         dados.add(DAO.findAll(Imagem.class));
         return dados;
+    }
+
+    @RequestMapping(value="/uploadimg",method = RequestMethod.POST)
+    @ResponseBody
+    public DataResponse uploadImagem(HttpServletRequest request, @RequestParam String dataURL){
+        try{
+            DataData dt = new DataData();
+            String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
+            RICModel.uploadImagem(caminhoPadrao,dataURL);
+            dt.setMessage("Upload realizado com sucesso");
+            return dt;
+        }catch (Exception ex){
+            return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+        }
     }
 
     @RequestMapping(value="/processar",method = RequestMethod.POST)
@@ -78,6 +94,22 @@ public class RICController extends AbstractController {
             String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
             RICModel.processarImagem(caminhoPadrao, nomeImagem,false);
             return DataResponse.SUCCESS.setMessage("Imagem processada com sucesso");
+        }catch (Exception ex){
+            return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+        }
+    }
+
+    @RequestMapping(value="/histograma",method = RequestMethod.POST)
+    @ResponseBody
+    public DataResponse getHistograma(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam boolean normalizar){
+        try{
+            DataData dt = new DataData();
+            String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
+            dt.add(RICModel.getHistogramaRGB(caminhoPadrao,nomeImagem,normalizar));
+            dt.add(RICModel.getHistogramaHSV(caminhoPadrao,nomeImagem,normalizar));
+            dt.add(RICModel.getHistogramaYUV(caminhoPadrao,nomeImagem,normalizar));
+            dt.setMessage("Histogramas obtidos com sucesso");
+            return dt;
         }catch (Exception ex){
             return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
         }

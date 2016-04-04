@@ -40,7 +40,13 @@
                                     <h4 class="modal-title text-info text-center">{{modalTitulo}}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <nvd3 options='options' data='data'></nvd3>
+                                    <label>Histograma RGB
+                                    <nvd3 options='options' data='dataRGB'></nvd3></label>
+                                    <label>Histograma HSV
+                                    <nvd3 options='options' data='dataHSV'></nvd3></label>
+                                    <label>Histograma YUV
+                                    <nvd3 options='options' data='dataYUV'></nvd3></label>
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
@@ -72,14 +78,36 @@
                 </div>
                 <div class="col-md-4">
                     <div class="col-md-10 btn-group-vertical btn-left">
-                        <button ng-click="niveisDeCinza()" class="btn btn-primary button-left2" type="button">Histograma
+                        <button ng-click="visualizarImagem('principal')" class="btn btn-primary button-left2" type="button">Histogramas
                             da Imagem
                         </button>
                         <button ng-click="precisaoRevocacao()" class="btn btn-primary button-left2" type="button">
                             Grafico
                             Precisão x Revocacão
                         </button>
+                        <label>Normalizar:
+                            <input type="checkbox" ng-model="normalizar">
+                        </label><br/>
+                        <label>
+                            <input type="radio" ng-model="distancia" value="1">
+                            Manhattan
+                        </label><br/>
+                        <label>
+                            <input type="radio" ng-model="distancia" value="2">
+                            Euclidiana
+                        </label><br/>
+                        <label>
+                            <input type="radio" ng-model="distancia" value="3">
+                            Xadrez
+                        </label><br/>
+                        <label>
+                            <input type="radio" ng-model="distancia" value="4">
+                            Coseno
+                        </label>
+                        <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
+                        </button>
                     </div>
+
                 </div>
             </div>
             <div class="col-md-12">
@@ -95,7 +123,7 @@
                         <tr>
                             <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order | filter:rolagemFilter)"
                                 ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
-                                ng-click="selectImagem(imagem)" ng-dblclick="vizualizarImagem(imagem)">
+                                ng-click="selectImagem(imagem)" ng-dblclick="histogramaPrincipal(imagem.nome)">
                                 <img height="200" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
                             </td>
                         </tr>

@@ -45,7 +45,6 @@ public class ProcessadorImagem {
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
-        this.normalizar = normalizar;
         //Carrega a imagem principal como escalas de cinza
         imagemPrincipalEscalaCinza =
             cvLoadImage(caminho, CV_LOAD_IMAGE_GRAYSCALE);
@@ -387,7 +386,6 @@ public class ProcessadorImagem {
                 vermelho += c.getRed();
                 verde += c.getGreen();
                 azul += c.getBlue();
-                // does alpha matter?
             }
         }
 

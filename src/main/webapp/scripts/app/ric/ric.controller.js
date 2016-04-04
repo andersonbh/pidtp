@@ -38,6 +38,7 @@ angular.module('pidtpApp')
         };
 
 
+        $scope.normalizar = false;
 
         $scope.processarImagem = function(){
             $http.post("/ric/processar",
@@ -132,6 +133,23 @@ angular.module('pidtpApp')
             button.href = dataURL;
         };
 
+        $scope.salvarNoDisco = function () {
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
 
 
         $scope.carregarImagens = function () {
@@ -140,72 +158,108 @@ angular.module('pidtpApp')
             });
         };
 
+
+
         //Metodos para o grafico ###########################
         $scope.options = {
             chart: {
                 type: 'lineChart',
-                height: 450,
+                height: 400,
                 margin: {
                     top: 20,
                     right: 20,
                     bottom: 40,
                     left: 55
                 },
-                //width: 'auto',
-                //x: function(d){ return d.x; },
-                //y: function(d){ return d.y; },
                 useInteractiveGuideline: true,
-                //dispatch: {
-                //    stateChange: function(e){ console.log("stateChange"); },
-                //    changeState: function(e){ console.log("changeState"); },
-                //    tooltipShow: function(e){ console.log("tooltipShow"); },
-                //    tooltipHide: function(e){ console.log("tooltipHide"); }
-                //},
                 xAxis: {},
                 yAxis: {
                     tickFormat: function (d) {
                         return d3.format('.02f')(d);
                     },
                     axisLabelDistance: -10
-                },
-                //callback: function(chart){
-                //    console.log("!!! lineChart callback !!!");
-                //}
-            }//,
-            //title: {
-            //    enable: true,
-            //    text: 'Histograma da Imagem'
-            //}
+                }
+
+            }
         };
 
+        $scope.histogramaPrincipal = function (nomeImagem) {
+            $scope.modalTitulo = 'Histogramas da imagem';
+            var histogramaRGB = [];
+            var histogramaYUV = [];
+            var histogramaHSV = [];
 
-        $scope.niveisDeCinza = function () {
-            $scope.modalTitulo = 'Níveis de Cinza';
-
-            var niveisCinza = [];
-            niveisCinza.push({x: 0, y: 0.068});
-            niveisCinza.push({x: 1 / 7, y: 0.196});
-            niveisCinza.push({x: 2 / 7, y: 0.296});
-            niveisCinza.push({x: 3 / 7, y: 0.209});
-            niveisCinza.push({x: 4 / 7, y: 0.122});
-            niveisCinza.push({x: 5 / 7, y: 0.048});
-            niveisCinza.push({x: 6 / 7, y: 0.033});
-            niveisCinza.push({x: 1, y: 0.028});
-
-            $scope.options.chart.xAxis.axisLabel = 'Time (ms)';
-            $scope.options.chart.yAxis.axisLabel = 'Voltage (v)';
-
-            //Line chart data should be sent as an array of series objects.
-            $scope.data = [
+            $http.post("/ric/histograma",
                 {
-                    values: niveisCinza,      //values - represents the array of {x,y} data points
-                    key: 'Níveis de Cinza', //key  - the name of the series.
+                    nomeImagem: nomeImagem,
+                    normalizar: $scope.normalizar,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                function plotaPontoRGB(element, index, array) {
+                    histogramaRGB.push({x: index, y: element});
+                }
+                response.data[0].forEach(plotaPontoRGB);
+                function plotaPontoHSV(element, index, array) {
+                    histogramaHSV.push({x: index, y: element});
+                }
+                response.data[1].forEach(plotaPontoHSV);
+                function plotaPontoYUV(element, index, array) {
+                    histogramaYUV.push({x: index, y: element});
+                }
+                response.data[2].forEach(plotaPontoYUV);
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+
+            $scope.options.chart.xAxis.axisLabel = 'Tons';
+            $scope.options.chart.yAxis.axisLabel = 'Frequencia';
+
+            $scope.dataRGB = [
+                {
+                    values: histogramaRGB,      //values - represents the array of {x,y} data points
+                    key: 'Ocorrencia', //key  - the name of the series.
+                    color: '#000000',  //color - optional: choose your own line color.
+                    area: true
+                }
+            ];
+            $scope.dataHSV = [
+                {
+                    values: histogramaHSV,      //values - represents the array of {x,y} data points
+                    key: 'Ocorrencia', //key  - the name of the series.
+                    color: '#000000',  //color - optional: choose your own line color.
+                    area: true
+                }
+            ];
+            $scope.dataYUV = [
+                {
+                    values: histogramaYUV,      //values - represents the array of {x,y} data points
+                    key: 'Ocorrencia', //key  - the name of the series.
                     color: '#000000',  //color - optional: choose your own line color.
                     area: true
                 }
             ];
 
             $('#graficos').modal('show');
+        };
+
+        $scope.calcDist = function () {
+            if($scope.distancia == 2){
+                // Euclidiana
+            }else if($scope.distancia = 3){
+                // Xadrez
+            }else if($scope.distancia = 4){
+                //Coseno
+
+            }else {
+                // Manhattan
+                
+
+            }
         };
 
         $scope.precisaoRevocacao = function () {
@@ -255,107 +309,9 @@ angular.module('pidtpApp')
         };
         //#####################################################################
 
-        $scope.vizualizarImagem = function (imagem) {
-            $scope.processarImagem();
-            //Setar valores Grafico Precisao
-            $scope.optionsPrecisao = {
-                chart: {
-                    type: 'lineChart',
-                    height: 450,
-                    margin: {
-                        top: 20,
-                        right: 20,
-                        bottom: 40,
-                        left: 55
-                    },
-                    useInteractiveGuideline: true,
-                    xAxis: {
-                        axisLabel: 'Revocação'
-                    },
-                    yAxis: {
-                        axisLabel: 'Precisão',
-                        tickFormat: function (d) {
-                            return d3.format('.02f')(d);
-                        },
-                        axisLabelDistance: -10
-                    },
-                    title: {
-                        enable: true,
-                        text: 'Precisão x Revocação'
-                    }
-                }
-            };
-
-            var precisaoXrevocacao = [];
-            precisaoXrevocacao.push({x: 0.1, y: 0.9});
-            precisaoXrevocacao.push({x: 0.2, y: 0.7});
-            precisaoXrevocacao.push({x: 0.3, y: 0.6});
-            precisaoXrevocacao.push({x: 0.4, y: 0.5});
-            precisaoXrevocacao.push({x: 0.5, y: 0.4});
-            precisaoXrevocacao.push({x: 0.6, y: 0.3});
-            precisaoXrevocacao.push({x: 0.7, y: 0.3});
-            precisaoXrevocacao.push({x: 0.8, y: 0.2});
-            precisaoXrevocacao.push({x: 0.9, y: 0.2});
-
-            $scope.dataPrecisao = [
-                {
-                    values: precisaoXrevocacao,      //values - represents the array of {x,y} data points
-                    key: 'Precisão x Revocação', //key  - the name of the series.
-                    color: '#FF0000'  //color - optional: choose your own line color.
-                    //area: true
-                }
-            ];
-            //###############################
-            //Setar Valores Grafico Niveis de Cinza
-            $scope.optionsCinza = {
-                chart: {
-                    type: 'lineChart',
-                    height: 450,
-                    margin: {
-                        top: 20,
-                        right: 20,
-                        bottom: 40,
-                        left: 55
-                    },
-                    useInteractiveGuideline: true,
-                    xAxis: {
-                        axisLabel: 'Time (ms)'
-                    },
-                    yAxis: {
-                        axisLabel: 'Voltage (v)',
-                        tickFormat: function (d) {
-                            return d3.format('.02f')(d);
-                        },
-                        axisLabelDistance: -10
-                    },
-                    title: {
-                        enable: true,
-                        text: 'Níveis de Cinza'
-                    }
-                }
-            };
-
-            var niveisCinza = [];
-            niveisCinza.push({x: 0, y: 0.068});
-            niveisCinza.push({x: 1 / 7, y: 0.196});
-            niveisCinza.push({x: 2 / 7, y: 0.296});
-            niveisCinza.push({x: 3 / 7, y: 0.209});
-            niveisCinza.push({x: 4 / 7, y: 0.122});
-            niveisCinza.push({x: 5 / 7, y: 0.048});
-            niveisCinza.push({x: 6 / 7, y: 0.033});
-            niveisCinza.push({x: 1, y: 0.028});
-
-            $scope.dataCinza = [
-                {
-                    values: niveisCinza,      //values - represents the array of {x,y} data points
-                    key: 'Níveis de Cinza', //key  - the name of the series.
-                    color: '#000000',  //color - optional: choose your own line color.
-                    area: true
-                }
-            ];
-            //##########################################
-            $('#graficosModais').modal('show');
+        $scope.visualizarImagem = function (imagem) {
+            $scope.salvarNoDisco();
+            $scope.histogramaPrincipal(imagem);
         }
-
 
     });
