@@ -1,4 +1,4 @@
-package com.andersoncarvalho.pidtp.repository;
+package com.andersoncarvalho.pidtp.misc;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

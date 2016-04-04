@@ -1,6 +1,8 @@
 package com.andersoncarvalho.pidtp.misc;
 
 import org.bytedeco.javacpp.opencv_core.*;
+import org.bytedeco.javacv.*;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -33,6 +35,8 @@ public class ProcessadorImagem {
     //Tamanho da Imagem principal
     private CvSize tamanhoDaImagem;
 
+    private boolean normalizar;
+
     private int numberOfBins = 256;
     private float _minRange = 0.0f;
     private float _maxRange = 255.0f;
@@ -41,6 +45,7 @@ public class ProcessadorImagem {
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
+        this.normalizar = normalizar;
         //Carrega a imagem principal como escalas de cinza
         imagemPrincipalEscalaCinza =
             cvLoadImage(caminho, CV_LOAD_IMAGE_GRAYSCALE);
@@ -52,18 +57,41 @@ public class ProcessadorImagem {
         // Converte a imagem principal para YUV
         imagemPrincipalYUV = cvCreateImage(tamanhoDaImagem, 8, 3);
         cvCvtColor(imagemPrincipal, imagemPrincipalYUV, CV_BGR2YCrCb);
+        String caminhoSalvar = caminhoPadrao + "histogramas/";
+
+        if(normalizar){
+            caminhoSalvar += "normalizados/";
+        }
 
         //Salva o histograma YUV
-        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_yuv.jpg",getHistogramImage(imagemPrincipalYUV));
+        salvarArquivo(caminhoSalvar+ nomeImagem +"_yuv.jpg",getHistogramImage(imagemPrincipalYUV,normalizar));
 
         //Salva o histograma HSV
-        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_hsv.jpg",getHistogramImage(imagemPrincipalHSV));
+        salvarArquivo(caminhoSalvar + nomeImagem +"_hsv.jpg",getHistogramImage(imagemPrincipalHSV,normalizar));
 
         //Salva o histograma de escalas de cinza
-        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_cinza.jpg",getHistogramImage(imagemPrincipalEscalaCinza));
+        salvarArquivo(caminhoSalvar + nomeImagem +"_cinza.jpg",getHistogramImage(imagemPrincipalEscalaCinza,normalizar ));
 
         //Salva o histograma RGB
-        salvarArquivo(caminhoPadrao + "histogramas/" + nomeImagem +"_rgb.jpg",getHistogramImage(imagemPrincipal));
+        salvarArquivo(caminhoSalvar + nomeImagem +"_rgb.jpg",getHistogramImage(imagemPrincipal, normalizar));
+    }
+
+    public ProcessadorImagem( String caminhoPadrao, String nomeImagem, boolean normalizar) throws IOException {
+        String caminho = caminhoPadrao + nomeImagem + ".jpg";
+        imagemPrincipal = cvLoadImage(caminho);
+        tamanhoDaImagem = imagemPrincipal.cvSize();
+        this.normalizar = normalizar;
+        //Carrega a imagem principal como escalas de cinza
+        imagemPrincipalEscalaCinza =
+            cvLoadImage(caminho, CV_LOAD_IMAGE_GRAYSCALE);
+
+        // Converte a imagem principal para HSV
+        imagemPrincipalHSV = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvCvtColor(imagemPrincipal, imagemPrincipalHSV, CV_BGR2HSV);
+
+        // Converte a imagem principal para YUV
+        imagemPrincipalYUV = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvCvtColor(imagemPrincipal, imagemPrincipalYUV, CV_BGR2YCrCb);
     }
 
     /**
@@ -143,12 +171,29 @@ public class ProcessadorImagem {
         return hist;
     }
 
+    public float [] getHSVHistogramAsArray(){
+        return getHistogramAsArray(imagemPrincipalHSV,normalizar);
+    }
+
+    public float [] getRGBHistogramAsArray(){
+        return getHistogramAsArray(imagemPrincipal,normalizar);
+    }
+
+    public float [] getYUVHistogramAsArray(){
+        return getHistogramAsArray(imagemPrincipalYUV,normalizar);
+    }
+
     /**
      * Calcula o histograma de uma imagem
      * @param image imagem de entrada (principal)
      * @return retorna o histograma como um vetor
      */
-    public float [] getHistogramAsArray(IplImage image){
+    public float [] getHistogramAsArray(IplImage image, boolean normalizar){
+
+        if(normalizar){
+            cvNormalize(image, image, 0, 255, CV_MINMAX, null);
+        }
+
         // Cria e calcula o histograma da imagem recebida como parametro
         CvHistogram histogram = getHistogram(image, null);
 
@@ -170,13 +215,13 @@ public class ProcessadorImagem {
      * @param image que sera gerada o histograma
      * @return Imagem do histograma
      */
-    public BufferedImage getHistogramImage(IplImage image) {
+    public BufferedImage getHistogramImage(IplImage image, boolean normalizar) {
 
         // Tamanho da imagem de saida
         int width = numberOfBins;
         int height = numberOfBins;
 
-        float[] hist = getHistogramAsArray(image);
+        float[] hist = getHistogramAsArray(image, normalizar);
         // Set highest point to 90% of the number of bins
         double scale = 0.9 / hist.length * height;
 
@@ -311,14 +356,21 @@ public class ProcessadorImagem {
         return max;
     }
 
+    public BufferedImage IplImageToBufferedImage(IplImage src) {
+        OpenCVFrameConverter.ToIplImage grabberConverter = new OpenCVFrameConverter.ToIplImage();
+        Java2DFrameConverter paintConverter = new Java2DFrameConverter();
+        org.bytedeco.javacv.Frame frame = grabberConverter.convert(src);
+        return paintConverter.getBufferedImage(frame,1);
+    }
 
     /**
      * Pega a taxa de cor Rgb da imagem
-     * @param img imagem que será calculado o vetor
      * @return taxa de cor da imagem em um vetor RGB
      */
-    public static double[] getTaxadeCor(BufferedImage img)
+    public double[] getTaxadeCor()
     {
+        BufferedImage img = IplImageToBufferedImage(imagemPrincipal);
+
         long vermelho = 0;
         long verde = 0;
         long azul = 0;

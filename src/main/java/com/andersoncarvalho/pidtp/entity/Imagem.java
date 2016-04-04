@@ -16,7 +16,10 @@ public class Imagem {
     private int width;
     private int height;
     private String nome;
-
+    private double[] taxadecor;
+    private float[] histogramargb;
+    private float[] histogramahsv;
+    private float[] histogramayuv;
 
     public String getNome() {
         return nome;
@@ -57,5 +60,37 @@ public class Imagem {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public double[] getTaxadecor() {
+        return taxadecor;
+    }
+
+    public void setTaxadecor(double[] taxadecor) {
+        this.taxadecor = taxadecor;
+    }
+
+    public float[] getHistogramargb() {
+        return histogramargb;
+    }
+
+    public void setHistogramargb(float[] histogramargb) {
+        this.histogramargb = histogramargb;
+    }
+
+    public float[] getHistogramahsv() {
+        return histogramahsv;
+    }
+
+    public void setHistogramahsv(float[] histogramahsv) {
+        this.histogramahsv = histogramahsv;
+    }
+
+    public float[] getHistogramayuv() {
+        return histogramayuv;
+    }
+
+    public void setHistogramayuv(float[] histogramayuv) {
+        this.histogramayuv = histogramayuv;
     }
 }

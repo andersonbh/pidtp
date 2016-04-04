@@ -187,6 +187,20 @@
             <column name="height" type="int">
                 <constraints nullable="false"/>
             </column>
+            <column name="histogramargb" type="float[]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="histogramayuv" type="float[]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="histogramahsv" type="float[]">
+                <constraints nullable="true"/>
+            </column>
+            <column name="taxadecor" type="numeric[]">
+                <constraints nullable="true"/>
+            </column>
+
+
         </createTable>
 
         <loadData encoding="UTF-8"

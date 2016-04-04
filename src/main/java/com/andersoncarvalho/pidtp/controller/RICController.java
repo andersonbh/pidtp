@@ -60,13 +60,8 @@ public class RICController extends AbstractController {
                     }
                 }
             }
-//            rtcModel.manipularImagem(imagem);
-//            mensagemRetorno += " ";   // &#250 -> ú
             return "{\"success\": true, \"message\": \"" + mensagemRetorno + "\"}";
-
-
     }
-
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -81,9 +76,20 @@ public class RICController extends AbstractController {
     public DataResponse processarImagem(HttpServletRequest request, @RequestParam String nomeImagem){
         try{
             String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
-
-            RICModel.processarImagem(caminhoPadrao, nomeImagem);
+            RICModel.processarImagem(caminhoPadrao, nomeImagem,false);
             return DataResponse.SUCCESS.setMessage("Imagem processada com sucesso");
+        }catch (Exception ex){
+            return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+        }
+    }
+
+    @RequestMapping(value="/calculardados",method = RequestMethod.GET)
+    @ResponseBody
+    public DataResponse calcularDadosDoBanco(HttpServletRequest request){
+        try{
+            String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
+            RICModel.calcularDadosDoBanco(caminhoPadrao);
+            return DataResponse.SUCCESS.setMessage("Imagems calculadas com sucesso");
         }catch (Exception ex){
             return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
         }

@@ -1,5 +1,6 @@
 package com.andersoncarvalho.pidtp.model;
 
+import com.andersoncarvalho.pidtp.entity.Imagem;
 import com.andersoncarvalho.pidtp.misc.ProcessadorImagem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import com.andersoncarvalho.pidtp.dao.DAO;
 import javax.inject.Scope;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
@@ -44,8 +46,22 @@ public class RICModel {
         return bla;
     }
 
-    public void processarImagem(String caminhoPadrao,String nomeImagem) throws IOException {
-        ProcessadorImagem  pi = new ProcessadorImagem(caminhoPadrao ,nomeImagem);
+    public void processarImagem(String caminhoPadrao,String nomeImagem, boolean normalizar) throws IOException {
+        ProcessadorImagem  pi = new ProcessadorImagem(caminhoPadrao ,nomeImagem, normalizar);
 
+    }
+
+    public void calcularDadosDoBanco(String caminhopadrao) throws IOException {
+            ProcessadorImagem pi;
+
+        for(long i = 0; i < 1000; i++){
+            pi = new ProcessadorImagem(caminhopadrao,"" + i);
+//            Imagem img = DAO.findById(Imagem.class, i);
+//            img.setTaxadecor(pi.getTaxadeCor());
+//            img.setHistogramahsv(pi.getHSVHistogramAsArray());
+//            img.setHistogramayuv(pi.getYUVHistogramAsArray());
+//            img.setHistogramargb(pi.getRGBHistogramAsArray());
+//            DAO.merge(img);
+        }
     }
 }
