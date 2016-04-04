@@ -285,7 +285,7 @@ public class ProcessadorImagem {
      * @param vetorB imagem 2
      * @return distancia
      */
-    public static double calcularCoseno(double[] vetorA, double[] vetorB)
+    public double calcularCoseno(double[] vetorA, double[] vetorB)
     {
         double produto = 0.0;
         double normA = 0.0;
@@ -304,7 +304,7 @@ public class ProcessadorImagem {
      * @param vetor2 imagem 2
      * @return distancia
      */
-    public static double calcularEuclidiana(double[] vetor1, double[] vetor2)
+    public double calcularEuclidiana(double[] vetor1, double[] vetor2)
     {
 
         double somarParcial = 0.0;
@@ -323,7 +323,7 @@ public class ProcessadorImagem {
      * @param vetor2 imagem 2
      * @return distancia
      */
-    public static double calcularManhattan(double[] vetor1, double[] vetor2)
+    public double calcularManhattan(double[] vetor1, double[] vetor2)
     {
 
         double somaParcial = 0.0;
@@ -341,11 +341,11 @@ public class ProcessadorImagem {
      *
      * @param vetor1 imagem 1
      * @param vetor2 imagem 2
-     * @return - em caso de vetores com dimensões diferentes, retorna null
+     * @return - em caso de vetores com dimensões diferentes, retorna 0
      */
-    public Double calcularXadrez( double[] vetor1, double[] vetor2 )
+    public double calcularXadrez( double[] vetor1, double[] vetor2 )
     {
-        Double max = null;
+        double max = 0;
         if(vetor1.length == vetor2.length)
         {  max = 0.0;
             for(int i=0; i< vetor1.length ; i++)

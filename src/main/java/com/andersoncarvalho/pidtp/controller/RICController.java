@@ -26,7 +26,7 @@ package com.andersoncarvalho.pidtp.controller;
 
     import java.net.URL;
     import java.sql.SQLException;
-
+    import java.util.List;
 
 
 @Controller
@@ -63,13 +63,33 @@ public class RICController extends AbstractController {
             return "{\"success\": true, \"message\": \"" + mensagemRetorno + "\"}";
     }
 
-
+    @RequestMapping(value="/calcDist",method = RequestMethod.POST)
+    @ResponseBody
+    public DataResponse calcDist(HttpServletRequest request, @RequestParam int tipoDistancia){
+        try{
+            DataData dt = new DataData();
+            String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
+            if(tipoDistancia == 2) {
+                RICModel.calcEuclidiana(caminhoPadrao);
+            }else if(tipoDistancia == 3){
+                RICModel.calcXadrez(caminhoPadrao);
+            }else if(tipoDistancia == 4){
+                RICModel.calcCoseno(caminhoPadrao);
+            }else{
+                RICModel.calcManhattan(caminhoPadrao);
+            }
+            dt.setMessage("Histogramas obtidos com sucesso");
+            return dt;
+        }catch (Exception ex){
+            return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+        }
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public DataResponse listaImagens(){
         DataData dados = new DataData(true);
-        dados.add(DAO.findAll(Imagem.class));
+        dados.add(RICModel.listarImagensOrdenadas());
         return dados;
     }
 

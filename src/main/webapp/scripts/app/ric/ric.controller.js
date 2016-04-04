@@ -248,19 +248,26 @@ angular.module('pidtpApp')
         };
 
         $scope.calcDist = function () {
-            if($scope.distancia == 2){
-                // Euclidiana
-            }else if($scope.distancia = 3){
-                // Xadrez
-            }else if($scope.distancia = 4){
-                //Coseno
+            $scope.salvarNoDisco();
 
-            }else {
-                // Manhattan
-                
-
-            }
+                $http.post("/ric/calcDist",
+                    {
+                        tipoDistancia: $scope.distancia,
+                        ajax : true}, {
+                        transformRequest: function(data) {
+                            return $.param(data);
+                        },
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                    }).success(function(response){
+                    $scope.carregarImagens();
+                    console.log('aeee' + response.message);
+                }).error(function(response){
+                    console.log('merda');
+                });
         };
+
+        $scope.order = "-distanciaatual";
+
 
         $scope.precisaoRevocacao = function () {
             $scope.modalTitulo = 'Precisão x Revocação';

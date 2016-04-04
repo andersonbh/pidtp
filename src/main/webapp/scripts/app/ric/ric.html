@@ -121,10 +121,11 @@
                     <table class="table table-bordered table-responsive">
 
                         <tr>
-                            <td ng-repeat="imagem in imagensFiltradas = (imagens | orderBy:order | filter:rolagemFilter)"
+                            <td ng-repeat="imagem in imagensFiltradas = (imagens | filter:rolagemFilter | orderBy: order)"
                                 ng-style="{ 'background-color': imagem.id == selectedImagem.id ? 'lightgray' : ''}"
                                 ng-click="selectImagem(imagem)" ng-dblclick="histogramaPrincipal(imagem.nome)">
                                 <img height="200" ng-src="{{ imagem.caminho }}" alt="{{ imagem.nome }}"/>
+                                {{ imagem.distanciaatual }}
                             </td>
                         </tr>
 
