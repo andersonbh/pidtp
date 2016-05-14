@@ -35,6 +35,8 @@ public class ProcessadorImagem {
     //Tamanho da Imagem principal
     private CvSize tamanhoDaImagem;
 
+    private String caminhoPadrao;
+
     private boolean normalizar;
 
     private int numberOfBins = 256;
@@ -43,6 +45,7 @@ public class ProcessadorImagem {
 
     public ProcessadorImagem( String caminhoPadrao, String nomeImagem) throws IOException {
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
+        this.caminhoPadrao = caminhoPadrao;
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
         //Carrega a imagem principal como escalas de cinza
@@ -76,6 +79,7 @@ public class ProcessadorImagem {
     }
 
     public ProcessadorImagem( String caminhoPadrao, String nomeImagem, boolean normalizar) throws IOException {
+        this.caminhoPadrao = caminhoPadrao;
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
@@ -396,5 +400,23 @@ public class ProcessadorImagem {
         return new double[]{mediaVermelho, mediaVerde, mediaAzul};
 
     }
+
+
+    /**
+     * Aplicar filtros
+     * CV_BLUR: Filtro da média: calcula a média de todos os pixels de uma janela
+     * CV_MEDIAN: calcula o valor da mediana de uma janela
+     * CV_GAUSSIAN: suaviza a imagem utilizando uma ponderação de gaussiana utilizando uma janela (size1 x size1) utilizando dois parametros de suavização (sigma1 e sigma2) que definem o formato da gaussiana
+     * Exemplo de uso: cvSmooth(fonte, dest, FILTO_AQUI, tamanho1, tamanho2, sigma1, sigma2);
+     */
+    public boolean filtroMedia (){
+            IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+            cvSmooth(imagemPrincipal, imgTmp, CV_BLUR, 3,3,0,0);
+            cvSaveImage(caminhoPadrao + "principal.jpg", imgTmp);
+            return true;
+    }
+
+
+
 
 }

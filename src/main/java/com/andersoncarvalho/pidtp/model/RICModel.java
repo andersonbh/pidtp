@@ -91,6 +91,16 @@ public class RICModel {
         }
     }
 
+    public String  filtroMedia(String caminhoPadrao) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false );
+        if(piPrincipal.filtroMedia()){
+         return "Filtro Média aplicado com sucesso";
+        }else{
+            return "Erro ao aplicar filtro média";
+        }
+
+    }
+
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);

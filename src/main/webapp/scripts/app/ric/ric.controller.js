@@ -87,6 +87,8 @@ angular.module('pidtpApp')
                 reader.onload = function (e) {
                     var image = new Image();
                     image.src = reader.result;
+                    console.log(' caminho da imagem '+ image.src );
+
                     image.onload = function () {
                         //Pega os canvas do angular-painter, exatamanete com os nomes pwcanvasmain e pwcanvastmp
                         var c = document.getElementById('pwCanvasMain');
@@ -176,6 +178,43 @@ angular.module('pidtpApp')
                 }).error(function(response){
                     console.log('merda');
                 });
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.salvarEFiltro = function (tipo) {
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                if (tipo == 1){
+                    // se o filtro for media
+                    $scope.filtroMedia();
+                }
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.filtroMedia = function () {
+            $http.post("/ric/filtromedia",
+                {
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
                 console.log('aeee' + response.message);
             }).error(function(response){
                 console.log('merda');
