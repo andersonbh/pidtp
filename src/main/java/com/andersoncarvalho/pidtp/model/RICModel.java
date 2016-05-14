@@ -80,7 +80,7 @@ public class RICModel {
 
     public void calcEuclidiana(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
-        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal");
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false );
         double[] taxadeCorImgPrincipal = piPrincipal.getTaxadeCor();
         for(long i = 0; i < 1000; i++){
             pi = new ProcessadorImagem(caminhoPadrao,"" + i);
@@ -93,7 +93,7 @@ public class RICModel {
 
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
-        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal");
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);
         double[] taxadeCorImgPrincipal = piPrincipal.getTaxadeCor();
         for(long i = 0; i < 1000; i++){
             pi = new ProcessadorImagem(caminhoPadrao,"" + i);
@@ -106,7 +106,7 @@ public class RICModel {
 
     public void calcCoseno(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
-        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal");
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);
         double[] taxadeCorImgPrincipal = piPrincipal.getTaxadeCor();
         for(long i = 0; i < 1000; i++){
             pi = new ProcessadorImagem(caminhoPadrao,"" + i);
@@ -124,7 +124,7 @@ public class RICModel {
 
     public void calcManhattan(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
-        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal");
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);
         double[] taxadeCorImgPrincipal = piPrincipal.getTaxadeCor();
         for(long i = 0; i < 1000; i++){
             pi = new ProcessadorImagem(caminhoPadrao,"" + i);

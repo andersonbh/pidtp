@@ -150,6 +150,56 @@ angular.module('pidtpApp')
                 console.log('merda');
             });
         };
+        $scope.salvarECalcDist = function () {
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                $http.post("/ric/calcDist",
+                    {
+                        tipoDistancia: $scope.distancia,
+                        ajax : true}, {
+                        transformRequest: function(data) {
+                            return $.param(data);
+                        },
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                    }).success(function(response){
+                    $scope.carregarImagens();
+                    console.log('aeee' + response.message);
+                }).error(function(response){
+                    console.log('merda');
+                });
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.salvarEHistograma = function (imagem) {
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                $scope.histogramaPrincipal(imagem);
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
 
 
         $scope.carregarImagens = function () {
@@ -248,22 +298,9 @@ angular.module('pidtpApp')
         };
 
         $scope.calcDist = function () {
-            $scope.salvarNoDisco();
+            $scope.salvarECalcDist();
 
-                $http.post("/ric/calcDist",
-                    {
-                        tipoDistancia: $scope.distancia,
-                        ajax : true}, {
-                        transformRequest: function(data) {
-                            return $.param(data);
-                        },
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
-                    }).success(function(response){
-                    $scope.carregarImagens();
-                    console.log('aeee' + response.message);
-                }).error(function(response){
-                    console.log('merda');
-                });
+                
         };
 
         $scope.order = "-distanciaatual";
@@ -317,8 +354,7 @@ angular.module('pidtpApp')
         //#####################################################################
 
         $scope.visualizarImagem = function (imagem) {
-            $scope.salvarNoDisco();
-            $scope.histogramaPrincipal(imagem);
+            $scope.salvarEHistograma(imagem);
         }
 
     });
