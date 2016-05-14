@@ -215,6 +215,7 @@ angular.module('pidtpApp')
             chart: {
                 type: 'lineChart',
                 height: 400,
+                width: 700,
                 margin: {
                     top: 20,
                     right: 20,
@@ -300,7 +301,7 @@ angular.module('pidtpApp')
         $scope.calcDist = function () {
             $scope.salvarECalcDist();
 
-                
+
         };
 
         $scope.order = "-distanciaatual";
