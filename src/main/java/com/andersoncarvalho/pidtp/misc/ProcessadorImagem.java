@@ -1,5 +1,6 @@
 package com.andersoncarvalho.pidtp.misc;
 
+import com.andersoncarvalho.pidtp.entity.Imagem;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacv.*;
 
@@ -37,6 +38,8 @@ public class ProcessadorImagem {
 
     private String caminhoPadrao;
 
+    private String nomeImagem;
+
     private boolean normalizar;
 
     private int numberOfBins = 256;
@@ -46,6 +49,7 @@ public class ProcessadorImagem {
     public ProcessadorImagem( String caminhoPadrao, String nomeImagem) throws IOException {
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
         this.caminhoPadrao = caminhoPadrao;
+        this.nomeImagem = nomeImagem;
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
         //Carrega a imagem principal como escalas de cinza
@@ -80,6 +84,7 @@ public class ProcessadorImagem {
 
     public ProcessadorImagem( String caminhoPadrao, String nomeImagem, boolean normalizar) throws IOException {
         this.caminhoPadrao = caminhoPadrao;
+        this.nomeImagem = nomeImagem;
         String caminho = caminhoPadrao + nomeImagem + ".jpg";
         imagemPrincipal = cvLoadImage(caminho);
         tamanhoDaImagem = imagemPrincipal.cvSize();
@@ -409,11 +414,16 @@ public class ProcessadorImagem {
      * CV_GAUSSIAN: suaviza a imagem utilizando uma ponderação de gaussiana utilizando uma janela (size1 x size1) utilizando dois parametros de suavização (sigma1 e sigma2) que definem o formato da gaussiana
      * Exemplo de uso: cvSmooth(fonte, dest, FILTO_AQUI, tamanho1, tamanho2, sigma1, sigma2);
      */
-    public boolean filtroMedia (){
+    public Imagem filtroMedia (){
+        Imagem img = new Imagem();
             IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
             cvSmooth(imagemPrincipal, imgTmp, CV_BLUR, 3,3,0,0);
-            cvSaveImage(caminhoPadrao + "principal.jpg", imgTmp);
-            return true;
+            cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+            img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+            img.setNome(nomeImagem + "_filtro.jpg");
+            img.setHeight(tamanhoDaImagem.height());
+            img.setWidth(tamanhoDaImagem.width());
+        return img;
     }
 
 

@@ -23,6 +23,7 @@ angular.module('pidtpApp')
 
         $scope.selectImagem = function (imagem) {
             $scope.selectedImagem = imagem;
+            $scope.imagemFiltrada = null;
         };
 
         $scope.iniciar = function () {
@@ -35,6 +36,7 @@ angular.module('pidtpApp')
                 width: 710,
                 height: 600
             };
+            $scope.imagemFiltrada = null;
         };
 
 
@@ -87,8 +89,6 @@ angular.module('pidtpApp')
                 reader.onload = function (e) {
                     var image = new Image();
                     image.src = reader.result;
-                    console.log(' caminho da imagem '+ image.src );
-
                     image.onload = function () {
                         //Pega os canvas do angular-painter, exatamanete com os nomes pwcanvasmain e pwcanvastmp
                         var c = document.getElementById('pwCanvasMain');
@@ -184,7 +184,7 @@ angular.module('pidtpApp')
             });
         };
 
-        $scope.salvarEFiltro = function (tipo) {
+        $scope.salvarEFiltro = function (tipo, nomeImagem) {
             var cnvs = document.getElementById('pwCanvasMain');
             var dataURL = cnvs.toDataURL('image/jpeg');
             $http.post("/ric/uploadimg",
@@ -198,7 +198,7 @@ angular.module('pidtpApp')
                 }).success(function(response){
                 if (tipo == 1){
                     // se o filtro for media
-                    $scope.filtroMedia();
+                    $scope.filtroMedia(nomeImagem);
                 }
                 console.log('aeee' + response.message);
             }).error(function(response){
@@ -206,16 +206,17 @@ angular.module('pidtpApp')
             });
         };
 
-        $scope.filtroMedia = function () {
+        $scope.filtroMedia = function (nomeImagem) {
             $http.post("/ric/filtromedia",
                 {
+                    nomeImagem: nomeImagem,
                     ajax : true}, {
                     transformRequest: function(data) {
                         return $.param(data);
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(response){
-                console.log('aeee' + response.message);
+                $scope.imagemFiltrada = response.data[0];
             }).error(function(response){
                 console.log('merda');
             });

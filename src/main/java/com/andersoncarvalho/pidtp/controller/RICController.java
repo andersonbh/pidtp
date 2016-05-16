@@ -109,13 +109,20 @@ public class RICController extends AbstractController {
 
     @RequestMapping(value="/filtromedia",method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse filtroMedia(HttpServletRequest request){
+    public DataResponse filtroMedia(HttpServletRequest request, @RequestParam String nomeImagem){
         try{
             DataData dt = new DataData();
             String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
-            RICModel.filtroMedia(caminhoPadrao);
-            dt.setMessage("Filtro efetuado Média com sucesso");
-            return dt;
+            Imagem img = RICModel.filtroMedia(caminhoPadrao,nomeImagem);
+            if(img != null) {
+                dt.add(img);
+                dt.setMessage("Filtro efetuado Média com sucesso");
+                return dt;
+
+            }else{
+                return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+
+            }
         }catch (Exception ex){
             return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
         }

@@ -28,6 +28,11 @@
                             <label for="tamanho">Tamanho da linha: {{tamanhoLinha}}</label>
                             <input class="form-control" type="range" id="tamanho" ng-model="tamanhoLinha" max="100">
                         </div>
+                        <div class="voffset2" ng-show="imagemFiltrada != null">
+                            <label for="filtro">Filtro de Pré-Processamento:</label>
+                            </br>
+                            <img id="filtro" height="{{ imagemFiltrada.height }}" ng-src="{{ imagemFiltrada.caminho }}" alt="{{ imagemFiltrada.nome }}"/>
+                        </div>
                     </div>
 
                     <!-- MODAIS -->
@@ -40,6 +45,14 @@
                                     <h4 class="modal-title text-info text-center">{{modalTitulo}}</h4>
                                 </div>
                                 <div class="modal-body">
+                                    <button ng-click="salvarEFiltro(1,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Média
+                                    </button>
+                                    <br/>
+                                    <div class="voffset2" ng-show="imagemFiltrada != null">
+                                        <label>Filtro de Pré-Processamento:</label>
+                                        </br>
+                                        <img height="{{ imagemFiltrada.height }}" ng-src="{{ imagemFiltrada.caminho }}" alt="{{ imagemFiltrada.nome }}"/>
+                                    </div>
                                     <label>Histograma RGB
                                     <nvd3 options='options' data='dataRGB'></nvd3></label>
                                     <label>Histograma HSV
@@ -69,13 +82,14 @@
                                     <nvd3 options='optionsPrecisao' data='dataPrecisao'></nvd3>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
                 <div class="col-md-4">
                     <div class="col-md-10 btn-group-vertical btn-left">
                         <button ng-click="visualizarImagem('principal')" class="btn btn-primary button-left2" type="button">Histogramas
@@ -106,7 +120,7 @@
                         </label>
                         <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
                         </button>
-                        <button ng-click="salvarEFiltro(1)" class="btn btn-primary button-left2" type="button">Filtro Média
+                        <button ng-click="salvarEFiltro(1, 'principal')" class="btn btn-primary button-left2" type="button">Filtro Média
                         </button>
                     </div>
 
