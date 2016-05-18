@@ -196,20 +196,19 @@ angular.module('pidtpApp')
                     },
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(response){
-                if (tipo == 1){
                     // se o filtro for media
-                    $scope.filtroMedia(nomeImagem);
-                }
+                    $scope.filtro(nomeImagem,tipo);
                 console.log('aeee' + response.message);
             }).error(function(response){
                 console.log('merda');
             });
         };
 
-        $scope.filtroMedia = function (nomeImagem) {
-            $http.post("/ric/filtromedia",
+        $scope.filtro = function (nomeImagem,tipo) {
+            $http.post("/ric/filtro",
                 {
                     nomeImagem: nomeImagem,
+                    tipo: tipo,
                     ajax : true}, {
                     transformRequest: function(data) {
                         return $.param(data);

@@ -426,6 +426,18 @@ public class ProcessadorImagem {
         return img;
     }
 
+    public Imagem filtroMediana (){
+        Imagem img = new Imagem();
+        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvSmooth(imagemPrincipal, imgTmp, CV_MEDIAN, 3,3,0,0);
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+        return img;
+    }
+
 
 
 

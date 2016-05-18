@@ -45,8 +45,9 @@
                                     <h4 class="modal-title text-info text-center">{{modalTitulo}}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <button ng-click="salvarEFiltro(1,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Média
-                                    </button>
+                                    <button ng-click="salvarEFiltro(1,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Média</button>
+                                    <button ng-click="salvarEFiltro(2,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
+
                                     <br/>
                                     <div class="voffset2" ng-show="imagemFiltrada != null">
                                         <label>Filtro de Pré-Processamento:</label>
@@ -120,8 +121,8 @@
                         </label>
                         <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
                         </button>
-                        <button ng-click="salvarEFiltro(1, 'principal')" class="btn btn-primary button-left2" type="button">Filtro Média
-                        </button>
+                        <button ng-click="salvarEFiltro(1, 'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>
+                        <button ng-click="salvarEFiltro(2,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
                     </div>
 
                 </div>

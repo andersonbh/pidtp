@@ -107,16 +107,23 @@ public class RICController extends AbstractController {
         }
     }
 
-    @RequestMapping(value="/filtromedia",method = RequestMethod.POST)
+    @RequestMapping(value="/filtro",method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse filtroMedia(HttpServletRequest request, @RequestParam String nomeImagem){
+    public DataResponse filtro(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam int tipo){
         try{
             DataData dt = new DataData();
             String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
-            Imagem img = RICModel.filtroMedia(caminhoPadrao,nomeImagem);
+            Imagem img;
+            if(tipo == 1) {
+                img = RICModel.filtroMedia(caminhoPadrao, nomeImagem);
+                dt.setMessage("Filtro efetuado Média com sucesso");
+            }else{
+                img = RICModel.filtroMediana(caminhoPadrao,nomeImagem);
+                dt.setMessage("Filtro efetuado Mediana com sucesso");
+
+            }
             if(img != null) {
                 dt.add(img);
-                dt.setMessage("Filtro efetuado Média com sucesso");
                 return dt;
 
             }else{
