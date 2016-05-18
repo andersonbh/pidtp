@@ -47,6 +47,9 @@
                                 <div class="modal-body">
                                     <button ng-click="salvarEFiltro(1,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Média</button>
                                     <button ng-click="salvarEFiltro(2,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
+                                    <button ng-click="salvarEFiltro(3,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>
+                                    <button ng-click="salvarEFiltro(4,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>
+
 
                                     <br/>
                                     <div class="voffset2" ng-show="imagemFiltrada != null">
@@ -122,7 +125,10 @@
                         <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
                         </button>
                         <button ng-click="salvarEFiltro(1, 'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>
-                        <button ng-click="salvarEFiltro(2,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
+                        <button ng-click="salvarEFiltro(2,'principal)" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
+                        <button ng-click="salvarEFiltro(3,'principal')" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>
+                        <button ng-click="salvarEFiltro(4,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>
+
                     </div>
 
                 </div>

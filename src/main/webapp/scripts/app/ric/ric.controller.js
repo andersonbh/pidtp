@@ -185,6 +185,7 @@ angular.module('pidtpApp')
         };
 
         $scope.salvarEFiltro = function (tipo, nomeImagem) {
+            $scope.imagemFiltrada = null;
             var cnvs = document.getElementById('pwCanvasMain');
             var dataURL = cnvs.toDataURL('image/jpeg');
             $http.post("/ric/uploadimg",

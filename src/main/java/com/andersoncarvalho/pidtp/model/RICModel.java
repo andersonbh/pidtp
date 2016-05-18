@@ -101,6 +101,16 @@ public class RICModel {
         return piPrincipal.filtroMediana() ;
     }
 
+    public Imagem  filtroMaximo(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.filtroMaximo() ;
+    }
+
+    public Imagem  filtroMinimo(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.filtroMinimo() ;
+    }
+
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);

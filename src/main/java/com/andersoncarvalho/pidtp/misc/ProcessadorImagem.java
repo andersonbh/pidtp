@@ -438,6 +438,31 @@ public class ProcessadorImagem {
         return img;
     }
 
+    public Imagem filtroMaximo (){
+        Imagem img = new Imagem();
+        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvDilate(imagemPrincipal, imgTmp);
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+        return img;
+    }
+
+    public Imagem filtroMinimo (){
+        Imagem img = new Imagem();
+        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+        cvErode(imagemPrincipal, imgTmp);
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+        return img;
+    }
+
+
 
 
 
