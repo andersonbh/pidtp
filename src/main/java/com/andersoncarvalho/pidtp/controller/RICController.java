@@ -121,12 +121,15 @@ public class RICController extends AbstractController {
                 img = RICModel.filtroMediana(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Mediana com sucesso");
 
-            } else if (tipo == 3){
+            }else if (tipo == 3){
                 img = RICModel.filtroMaximo(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Maximo com sucesso");
-            }else{
+            }else if (tipo == 4){
                 img = RICModel.filtroMinimo(caminhoPadrao,nomeImagem);
-                dt.setMessage("Filtro efetuado Maximo com sucesso");
+                dt.setMessage("Filtro efetuado Minimo com sucesso");
+            }else{
+                img = RICModel.transformadaBinarizacao(caminhoPadrao,nomeImagem);
+                dt.setMessage("Transformada efetuada com sucesso");
             }
             if(img != null) {
                 dt.add(img);

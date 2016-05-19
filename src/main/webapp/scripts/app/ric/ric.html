@@ -119,15 +119,17 @@
                             Xadrez
                         </label><br/>
                         <label>
-                            <input type="radio" ng-model="distancimgEnvia" value="4">
+                            <input type="radio" ng-model="distancia" value="4">
                             Coseno
                         </label>
                         <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
                         </button>
-                        <button ng-click="salvarEFiltro(1, 'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>
-                        <button ng-click="salvarEFiltro(2,'principal)" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
+                        <button ng-click="salvarEFiltro(1,'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>
+                        <button ng-click="salvarEFiltro(2,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
                         <button ng-click="salvarEFiltro(3,'principal')" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>
                         <button ng-click="salvarEFiltro(4,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>
+                        <button ng-click="salvarEFiltro(5,'principal')" class="btn btn-primary button-left2" type="button">Transformada Binarizacão</button>
+
 
                     </div>
 

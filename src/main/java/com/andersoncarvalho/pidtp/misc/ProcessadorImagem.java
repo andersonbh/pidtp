@@ -414,6 +414,7 @@ public class ProcessadorImagem {
      * CV_GAUSSIAN: suaviza a imagem utilizando uma ponderação de gaussiana utilizando uma janela (size1 x size1) utilizando dois parametros de suavização (sigma1 e sigma2) que definem o formato da gaussiana
      * Exemplo de uso: cvSmooth(fonte, dest, FILTO_AQUI, tamanho1, tamanho2, sigma1, sigma2);
      */
+    //BORDA laplaciano, prewitt e sobreu
     public Imagem filtroMedia (){
         Imagem img = new Imagem();
             IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
@@ -459,11 +460,70 @@ public class ProcessadorImagem {
         img.setNome(nomeImagem + "_filtro.jpg");
         img.setHeight(tamanhoDaImagem.height());
         img.setWidth(tamanhoDaImagem.width());
+        System.out.print("Nome "+img.getNome() + " Caminho "+ img.getCaminho() + " Height " + img.getHeight() + " Width " + img.getWidth());
+
+        return img;
+    }
+
+    public Imagem transformadaBinarizacao() {
+//        Imagem img = new Imagem();
+//        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+//        cvThreshold(imagemPrincipal, imgTmp, 155, 255, CV_THRESH_BINARY);
+//        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+//        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+//        img.setNome(nomeImagem + "_filtro.jpg");
+//        img.setHeight(tamanhoDaImagem.height());
+//        img.setWidth(tamanhoDaImagem.width());
+//        int BLACK = Color.BLACK.getRGB();
+//        int WHITE = Color.WHITE.getRGB();
+//        System.out.print("Black "+BLACK+" e White "+WHITE);
+//
+//        return img;
+        int limiar = Color.BLACK.getRGB()/2;
+//        int BLACK = Color.BLACK.getRGB();
+//        int WHITE = Color.WHITE.getRGB();
+        Imagem img = new Imagem();
+        BufferedImage imagem = IplImageToBufferedImage(imagemPrincipal);
+//        int look[] = new int[255];
+//        for(int i = 0; i < 255; i ++)
+//            if(i < limiar) look[i] = 0;
+//            else look[i] = 255;
+
+        for (int i = 0; i < imagem.getWidth(); i++){
+            for (int j = 0; j < imagem.getHeight(); j++){
+                if (imagem.getRGB(i, j) < limiar) {
+                    imagem.setRGB(i, j, Color.BLACK.getRGB());
+                } else {
+                    imagem.setRGB(i, j, Color.WHITE.getRGB());
+                }
+            }
+        }
+//                img.setPixel(i,j,look[img.getPixel(i,j)]);
+        String caminho = caminhoPadrao + nomeImagem + "_transformada.jpg";
+        salvarArquivo(caminho, imagem);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_transformada.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(imagem.getHeight());
+        img.setWidth(imagem.getWidth());
+        System.out.print("Nome "+img.getNome() + " Caminho "+ img.getCaminho() + " Height " + img.getHeight() + " Width " + img.getWidth());
         return img;
     }
 
 
-
+//    private static BufferedImage toBinary(BufferedImage image, int t) {
+//        int BLACK = Color.BLACK.getRGB();
+//        int WHITE = Color.WHITE.getRGB();
+//        BufferedImage output = new BufferedImage(image.getWidth(),
+//            image.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+//        // Percorre a imagem definindo na saída o pixel como branco se o valor
+//        // na entrada for menor que o threshold, ou como preto se for maior.
+//        for (int y = 0; y < image.getHeight(); y++)
+//            for (int x = 0; x < image.getWidth(); x++) {
+//                Color pixel = new Color(image.getRGB(x, y));
+//                output.setRGB(x, y, pixel.getRed() < t ? BLACK : WHITE);
+//            }
+//        return output;
+//    }
 
 
 }
