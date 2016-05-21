@@ -124,11 +124,27 @@
                         </label>
                         <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
                         </button>
-                        <button ng-click="salvarEFiltro(1,'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>
-                        <button ng-click="salvarEFiltro(2,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
-                        <button ng-click="salvarEFiltro(3,'principal')" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>
-                        <button ng-click="salvarEFiltro(4,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>
-                        <button ng-click="salvarEFiltro(5,'principal')" class="btn btn-primary button-left2" type="button">Transformada Binarizacão</button>
+                        <label>
+                            Selecione o filtro:
+                        </label>
+                        <select class="form-control" id="foiltr"
+                                ng-model="selectedFiltroImagem"
+                                ng-options="filtro as filtro.filtro for filtro in filtroImagem"></select><br>
+                        <input type="number"
+                               class="form-control"
+                               id="variaveisFiltros"
+                               ng-model="variaveisFiltros"
+                               placeholder="Valor RGB. A média é -8388608"
+                               ng-show="selectedFiltroImagem.valor == 5"
+                               max="-1"
+                        />
+                        <button ng-click="salvarEFiltro('principal')" class="btn btn-primary button-left2" type="button" ng-show="selectedFiltroImagem.valor != null">Ok</button>
+
+                        <!--<button ng-click="salvarEFiltro(1,'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>-->
+                        <!--<button ng-click="salvarEFiltro(2,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>-->
+                        <!--<button ng-click="salvarEFiltro(3,'principal')" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>-->
+                        <!--<button ng-click="salvarEFiltro(4,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>-->
+                        <!--<button ng-click="salvarEFiltro(5,'principal')" class="btn btn-primary button-left2" type="button">Transformada Binarizacão</button>-->
 
 
                     </div>

@@ -109,7 +109,7 @@ public class RICController extends AbstractController {
 
     @RequestMapping(value="/filtro",method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse filtro(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam int tipo){
+    public DataResponse filtro(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam int tipo, @RequestParam int variaveis){
         try{
             DataData dt = new DataData();
             String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
@@ -128,7 +128,7 @@ public class RICController extends AbstractController {
                 img = RICModel.filtroMinimo(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Minimo com sucesso");
             }else{
-                img = RICModel.transformadaBinarizacao(caminhoPadrao,nomeImagem);
+                img = RICModel.transformadaBinarizacao(caminhoPadrao,nomeImagem,variaveis);
                 dt.setMessage("Transformada efetuada com sucesso");
             }
             if(img != null) {

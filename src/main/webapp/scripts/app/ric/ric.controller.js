@@ -184,7 +184,7 @@ angular.module('pidtpApp')
             });
         };
 
-        $scope.salvarEFiltro = function (tipo, nomeImagem) {
+        $scope.salvarEFiltro = function (nomeImagem) {
             $scope.imagemFiltrada = null;
             var cnvs = document.getElementById('pwCanvasMain');
             var dataURL = cnvs.toDataURL('image/jpeg');
@@ -198,18 +198,22 @@ angular.module('pidtpApp')
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(response){
                     // se o filtro for media
-                    $scope.filtro(nomeImagem,tipo);
+                    $scope.filtro(nomeImagem);
                 console.log('aeee' + response.message);
             }).error(function(response){
                 console.log('merda');
             });
         };
 
-        $scope.filtro = function (nomeImagem,tipo) {
+        $scope.filtro = function (nomeImagem) {
+            if($scope.selectedFiltroImagem.valor < 5){
+                $scope.variaveisFiltros = 0;
+            }
             $http.post("/ric/filtro",
                 {
                     nomeImagem: nomeImagem,
-                    tipo: tipo,
+                    tipo: $scope.selectedFiltroImagem.valor,
+                    variaveis: $scope.variaveisFiltros,
                     ajax : true}, {
                     transformRequest: function(data) {
                         return $.param(data);
@@ -344,7 +348,7 @@ angular.module('pidtpApp')
 
         };
 
-        $scope.order = "-distanciaatual";
+        $scope.order = "distanciaatual";
 
 
         $scope.precisaoRevocacao = function () {
@@ -384,6 +388,13 @@ angular.module('pidtpApp')
             {valor: 30},
             {valor: 100},
             {valor: 1000}];
+
+        $scope.filtroImagem = [
+            {valor: 1, filtro: "Filtro Média"},
+            {valor: 2, filtro: "Filtro Mediana"},
+            {valor: 3, filtro: "Filtro Máximo"},
+            {valor: 4, filtro: "Filtro Mínimo"},
+            {valor: 5, filtro: "Transformada Binarizacão"}];
 
         // Filtro para mostrar numero de imagens na Rolagem ################333
         $scope.rolagemFilter = function (imagens) {

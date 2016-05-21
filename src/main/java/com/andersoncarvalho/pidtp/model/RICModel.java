@@ -111,9 +111,9 @@ public class RICModel {
         return piPrincipal.filtroMinimo() ;
     }
 
-    public Imagem  transformadaBinarizacao(String caminhoPadrao, String nomeImagem) throws IOException {
+    public Imagem  transformadaBinarizacao(String caminhoPadrao, String nomeImagem, int variaveis) throws IOException {
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
-        return piPrincipal.transformadaBinarizacao() ;
+        return piPrincipal.transformadaBinarizacao(variaveis) ;
     }
 
     public void calcXadrez(String caminhoPadrao) throws IOException {
