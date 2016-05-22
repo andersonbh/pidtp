@@ -212,8 +212,10 @@ angular.module('pidtpApp')
             if($scope.selectedFiltroImagem.valor == 7){
                 if($scope.sobelFiltro == 1)
                     $scope.variaveisFiltros = 1;
-                else
+                else if($scope.sobelFiltro == 2)
                     $scope.variaveisFiltros = 2;
+                else
+                    $scope.variaveisFiltros = 3;
             }
             $http.post("/ric/filtro",
                 {
@@ -227,6 +229,7 @@ angular.module('pidtpApp')
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(response){
                 $scope.imagemFiltrada = response.data[0];
+                $scope.variaveisFiltros = null;
             }).error(function(response){
                 console.log('merda');
             });

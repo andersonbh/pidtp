@@ -514,15 +514,16 @@ public class ProcessadorImagem {
 
     public Imagem filtroSobel(int variaveis) {
         Imagem img = new Imagem();
-        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
-
-        IplImage sovel = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_8U,1); //cria uma estrutura de imagem de 8 bits
         IplImage dst = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_32F,1); //cria uma estrutura de imagem de 32 bits
 
         if(variaveis == 1) {
             cvSobel(imagemPrincipalEscalaCinza, dst, 1, 0);
-        }else {
+        }else if (variaveis == 2){
             cvSobel(imagemPrincipalEscalaCinza, dst, 0, 1);
+        }else {
+            IplImage dst2 = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_32F,1); //cria uma estrutura de imagem de 32 bits
+            cvSobel(imagemPrincipalEscalaCinza, dst2, 1, 0);
+            cvSobel(dst2, dst, 0, 1);
         }
 
         cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", dst);
