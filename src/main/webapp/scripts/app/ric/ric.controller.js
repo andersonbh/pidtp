@@ -227,6 +227,7 @@ angular.module('pidtpApp')
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
                 }).success(function(response){
                 $scope.imagemFiltrada = response.data[0];
+                $scope.variaveisFiltros = null;
             }).error(function(response){
                 console.log('merda');
             });

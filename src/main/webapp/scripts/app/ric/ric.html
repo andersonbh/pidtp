@@ -45,10 +45,37 @@
                                     <h4 class="modal-title text-info text-center">{{modalTitulo}}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <button ng-click="salvarEFiltro(1,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Média</button>
-                                    <button ng-click="salvarEFiltro(2,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>
-                                    <button ng-click="salvarEFiltro(3,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>
-                                    <button ng-click="salvarEFiltro(4,selectedImagem.nome)" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>
+                                    <label>
+                                        Selecione o filtro:
+                                    </label>
+                                    <select class="form-control" id="foiltrModal"
+                                            ng-model="selectedFiltroImagem"
+                                            ng-options="filtro as filtro.filtro for filtro in filtroImagem"></select><br>
+                                    <!--Input para a transformada de binarizacao-->
+                                    <input type="number"
+                                           class="form-control"
+                                           id="variaveisFiltrosModal"
+                                           ng-model="variaveisFiltros"
+                                           placeholder="Valor RGB. A média é -8388608"
+                                           ng-show="selectedFiltroImagem.valor == 5"
+                                           max="-1"
+                                    />
+                                    <!--Input para o filtro de laplacie-->
+                                    <input type="number"
+                                           class="form-control"
+                                           id="laplacieModal"
+                                           ng-model="variaveisFiltros"
+                                           placeholder="Insira o valor da abertura"
+                                           ng-show="selectedFiltroImagem.valor == 6"
+                                    />
+                                    <!--Input para o filtro Sobel-->
+                                    <form ng-show="selectedFiltroImagem.valor == 7">
+                                        <input type="radio" ng-model="sobelFiltro" value="1">
+                                        Bordas em X <br>
+                                        <input type="radio" ng-model="sobelFiltro" value="2">
+                                        Bordas em Y
+                                    </form>
+                                    <button ng-click="salvarEFiltro('principal')" class="btn btn-primary button-left2" type="button" ng-show="selectedFiltroImagem.valor != null">Ok</button>
 
 
                                     <br/>
@@ -154,21 +181,8 @@
                             <input type="radio" ng-model="sobelFiltro" value="2">
                             Bordas em Y
                         </form>
-                        <!--<label ng-show="selectedFiltroImagem.valor == 7">-->
-                            <!--<input type="radio" ng-model="variaveisFiltros" value="2">-->
-                            <!--Bordas em Y-->
-                        <!--</label>-->
                         <button ng-click="salvarEFiltro('principal')" class="btn btn-primary button-left2" type="button" ng-show="selectedFiltroImagem.valor != null">Ok</button>
-
-                        <!--<button ng-click="salvarEFiltro(1,'principal')" class="btn btn-primary button-left2" type="button">Filtro Média</button>-->
-                        <!--<button ng-click="salvarEFiltro(2,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mediana</button>-->
-                        <!--<button ng-click="salvarEFiltro(3,'principal')" class="btn btn-primary button-left2" type="button">Filtro Máximo</button>-->
-                        <!--<button ng-click="salvarEFiltro(4,'principal')" class="btn btn-primary button-left2" type="button">Filtro Mínimo</button>-->
-                        <!--<button ng-click="salvarEFiltro(5,'principal')" class="btn btn-primary button-left2" type="button">Transformada Binarizacão</button>-->
-
-
                     </div>
-
                 </div>
             </div>
             <div class="col-md-12">
