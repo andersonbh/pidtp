@@ -209,6 +209,12 @@ angular.module('pidtpApp')
             if($scope.selectedFiltroImagem.valor < 5){
                 $scope.variaveisFiltros = 0;
             }
+            if($scope.selectedFiltroImagem.valor == 7){
+                if($scope.sobelFiltro == 1)
+                    $scope.variaveisFiltros = 1;
+                else
+                    $scope.variaveisFiltros = 2;
+            }
             $http.post("/ric/filtro",
                 {
                     nomeImagem: nomeImagem,
@@ -394,7 +400,10 @@ angular.module('pidtpApp')
             {valor: 2, filtro: "Filtro Mediana"},
             {valor: 3, filtro: "Filtro Máximo"},
             {valor: 4, filtro: "Filtro Mínimo"},
-            {valor: 5, filtro: "Transformada Binarizacão"}];
+            {valor: 5, filtro: "Transformada Binarizacão"},
+            {valor: 6, filtro: "Filtro Laplaciano"},
+            {valor: 7, filtro: "Filtro Sobel"}
+        ];
 
         // Filtro para mostrar numero de imagens na Rolagem ################333
         $scope.rolagemFilter = function (imagens) {

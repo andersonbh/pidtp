@@ -116,6 +116,16 @@ public class RICModel {
         return piPrincipal.transformadaBinarizacao(variaveis) ;
     }
 
+    public Imagem filtroLaplaciano(String caminhoPadrao, String nomeImagem, int variaveis) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.filtroLaplaciano(variaveis) ;
+    }
+
+    public Imagem filtroSobel(String caminhoPadrao, String nomeImagem, int variaveis) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.filtroSobel(variaveis) ;
+    }
+
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);
@@ -177,4 +187,5 @@ public class RICModel {
 //            DAO.merge(img);
         }
     }
+
 }
