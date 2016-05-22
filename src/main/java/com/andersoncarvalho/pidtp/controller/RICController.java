@@ -109,7 +109,7 @@ public class RICController extends AbstractController {
 
     @RequestMapping(value="/filtro",method = RequestMethod.POST)
     @ResponseBody
-    public DataResponse filtro(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam int tipo){
+    public DataResponse filtro(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam int tipo, @RequestParam int variaveis){
         try{
             DataData dt = new DataData();
             String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
@@ -121,12 +121,21 @@ public class RICController extends AbstractController {
                 img = RICModel.filtroMediana(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Mediana com sucesso");
 
-            } else if (tipo == 3){
+            }else if (tipo == 3){
                 img = RICModel.filtroMaximo(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Maximo com sucesso");
-            }else{
+            }else if (tipo == 4){
                 img = RICModel.filtroMinimo(caminhoPadrao,nomeImagem);
-                dt.setMessage("Filtro efetuado Maximo com sucesso");
+                dt.setMessage("Filtro efetuado Minimo com sucesso");
+            }else if (tipo == 5){
+                img = RICModel.transformadaBinarizacao(caminhoPadrao,nomeImagem,variaveis);
+                dt.setMessage("Transformada efetuada com sucesso");
+            }else if (tipo == 6){
+                img = RICModel.filtroLaplaciano(caminhoPadrao,nomeImagem,variaveis);
+                dt.setMessage("Filtro efetuada com sucesso");
+            }else{
+                img = RICModel.filtroSobel(caminhoPadrao,nomeImagem,variaveis);
+                dt.setMessage("Filtro efetuada com sucesso");
             }
             if(img != null) {
                 dt.add(img);

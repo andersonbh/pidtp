@@ -414,6 +414,7 @@ public class ProcessadorImagem {
      * CV_GAUSSIAN: suaviza a imagem utilizando uma ponderação de gaussiana utilizando uma janela (size1 x size1) utilizando dois parametros de suavização (sigma1 e sigma2) que definem o formato da gaussiana
      * Exemplo de uso: cvSmooth(fonte, dest, FILTO_AQUI, tamanho1, tamanho2, sigma1, sigma2);
      */
+    //BORDA laplaciano, prewitt e sobreu
     public Imagem filtroMedia (){
         Imagem img = new Imagem();
             IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
@@ -459,11 +460,78 @@ public class ProcessadorImagem {
         img.setNome(nomeImagem + "_filtro.jpg");
         img.setHeight(tamanhoDaImagem.height());
         img.setWidth(tamanhoDaImagem.width());
+
+        return img;
+    }
+
+    public Imagem transformadaBinarizacao(int variaveis) {
+        Imagem img = new Imagem();
+        BufferedImage imagem = IplImageToBufferedImage(imagemPrincipalEscalaCinza);
+
+        for (int i = 0; i < imagem.getWidth(); i++){
+            for (int j = 0; j < imagem.getHeight(); j++){
+                if (imagem.getRGB(i, j) < variaveis) {
+                    imagem.setRGB(i, j, Color.BLACK.getRGB());
+                } else {
+                    imagem.setRGB(i, j, Color.WHITE.getRGB());
+                }
+            }
+        }
+        String caminho = caminhoPadrao + nomeImagem + "_filtro.jpg";
+        salvarArquivo(caminho, imagem);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(imagem.getHeight());
+        img.setWidth(imagem.getWidth());
         return img;
     }
 
 
+    public Imagem filtroLaplaciano(int variaveis) {
+        Imagem img = new Imagem();
+        IplImage lap = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_8U,1); //cria uma estrutura de imagem de 8 bits
+        IplImage dst = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_32F,1); //cria uma estrutura de imagem de 32 bits
 
+        /*como este filtro trabalha com imagens em escala de cinza, vamos ter que converter
+        a imagem colorida para cinza, o primeiro parâmetro e&etilde; a imagem original colorida
+        e o segundo é a estrutura de imagem criada acima de 8 bits que irá receber a imagem convertida.*/
+        cvCvtColor( imagemPrincipal, lap, CV_RGB2GRAY );
 
+        /*função Laplaciano, sendo que o primeiro parâmetro é a imagem convertida em cinza, o segundo é a
+        imagem de destino e o terceiro parâmetro é a abertura, quanto maior o valor inteiro e negativo, maior
+        apuração das bordas da imagem.*/
+        cvLaplace( lap, dst, variaveis);
 
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", dst);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+
+        return img;
+
+    }
+
+    public Imagem filtroSobel(int variaveis) {
+        Imagem img = new Imagem();
+        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+
+        IplImage sovel = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_8U,1); //cria uma estrutura de imagem de 8 bits
+        IplImage dst = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_32F,1); //cria uma estrutura de imagem de 32 bits
+
+        if(variaveis == 1) {
+            cvSobel(imagemPrincipalEscalaCinza, dst, 1, 0);
+        }else {
+            cvSobel(imagemPrincipalEscalaCinza, dst, 0, 1);
+        }
+
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", dst);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+
+        return img;
+
+    }
 }
