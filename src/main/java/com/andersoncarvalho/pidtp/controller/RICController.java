@@ -133,8 +133,11 @@ public class RICController extends AbstractController {
             }else if (tipo == 6){
                 img = RICModel.filtroLaplaciano(caminhoPadrao,nomeImagem,variaveis);
                 dt.setMessage("Filtro efetuada com sucesso");
-            }else{
+            }else if (tipo == 7){
                 img = RICModel.filtroSobel(caminhoPadrao,nomeImagem,variaveis);
+                dt.setMessage("Filtro efetuada com sucesso");
+            }else{
+                img = RICModel.filtroCanny(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuada com sucesso");
             }
             if(img != null) {
