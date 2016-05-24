@@ -131,6 +131,17 @@ public class RICModel {
         return piPrincipal.filtroCanny();
     }
 
+    public Imagem  transformadaMonocromatico(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.transformadaMonocromatico() ;
+    }
+
+    public Imagem filtroNegativo(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.filtroNegativo();
+    }
+
+
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,"principal", false);
