@@ -540,8 +540,33 @@ public class ProcessadorImagem {
         Imagem img = new Imagem();
         IplImage imgTmp = cvCreateImage(tamanhoDaImagem,IPL_DEPTH_8U,1); //cria uma estrutura de imagem de 32 bits
 
-//        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
         cvCanny(imagemPrincipal, imgTmp, 2.5, 7.5);
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+
+        return img;
+    }
+
+    public Imagem transformadaMonocromatico (){
+        Imagem img = new Imagem();
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imagemPrincipalEscalaCinza);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+
+        return img;
+    }
+
+    public Imagem filtroNegativo (){
+        Imagem img = new Imagem();
+        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+
+        cvNot(imagemPrincipal, imgTmp);
+//        cvFlip(imgTmp, imgTmp, 180);
         cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
         img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
         img.setNome(nomeImagem + "_filtro.jpg");
