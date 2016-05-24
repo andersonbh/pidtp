@@ -142,6 +142,9 @@ public class RICController extends AbstractController {
             }else if (tipo == 9){
                 img = RICModel.transformadaMonocromatico(caminhoPadrao,nomeImagem);
                 dt.setMessage("Transformada efetuada com sucesso");
+            }else if (tipo == 11){
+                img = RICModel.transformadaDeFourier(caminhoPadrao,nomeImagem);
+                dt.setMessage("Transformada efetuada com sucesso");
             }else{
                 img = RICModel.filtroNegativo(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado com sucesso");

@@ -1,6 +1,11 @@
 package com.andersoncarvalho.pidtp.misc;
 
 import com.andersoncarvalho.pidtp.entity.Imagem;
+import com.andersoncarvalho.pidtp.misc.transformadas.ConvolutionFilter;
+import com.andersoncarvalho.pidtp.misc.transformadas.ConvolutionGaussian;
+import com.andersoncarvalho.pidtp.misc.transformadas.FastFourierTransform;
+import com.andersoncarvalho.pidtp.misc.transformadas.FourierTransform;
+import com.andersoncarvalho.pidtp.service.util.ComplexNumber;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacv.*;
 
@@ -560,6 +565,24 @@ public class ProcessadorImagem {
 
         return img;
     }
+
+    public Imagem transformadaDeFourier (){
+        Imagem img = new Imagem();
+        BufferedImage tmp = IplImageToBufferedImage(imagemPrincipal);
+        FourierTransform ft = new FastFourierTransform();
+        ComplexNumber[][][] matrix = ft.apply(tmp);
+        ConvolutionFilter f = new ConvolutionGaussian(1000, tmp.getWidth(), tmp.getHeight());
+        f.execute(matrix);
+
+        ft.revert(tmp, matrix);
+        salvarArquivo(caminhoPadrao + nomeImagem + "_filtro.jpg",tmp);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+        return img;
+    }
+
 
     public Imagem filtroNegativo (){
         Imagem img = new Imagem();

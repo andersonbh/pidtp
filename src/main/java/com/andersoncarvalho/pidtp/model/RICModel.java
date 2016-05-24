@@ -136,6 +136,11 @@ public class RICModel {
         return piPrincipal.transformadaMonocromatico() ;
     }
 
+    public Imagem  transformadaDeFourier(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.transformadaDeFourier() ;
+    }
+
     public Imagem filtroNegativo(String caminhoPadrao, String nomeImagem) throws IOException {
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
         return piPrincipal.filtroNegativo();

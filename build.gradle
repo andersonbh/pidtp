@@ -96,6 +96,9 @@ dependencies {
     compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '2.4.11-0.11'
     compile group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: '2.6.1-0.11', classifier: 'linux-x86_64'
     compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '2.4.11-0.11', classifier:'linux-x86_64'
+    compile group: 'org.bytedeco.javacpp-presets', name: 'ffmpeg', version: '2.6.1-0.11', classifier: 'macosx-x86_64'
+    compile group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '2.4.11-0.11', classifier:'macosx-x86_64'
+    compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
     compile group: 'io.dropwizard.metrics', name: 'metrics-core'
     compile group: 'io.dropwizard.metrics', name: 'metrics-graphite', version: dropwizard_metrics_version
     compile group: 'io.dropwizard.metrics', name: 'metrics-healthchecks', version: dropwizard_metrics_version
