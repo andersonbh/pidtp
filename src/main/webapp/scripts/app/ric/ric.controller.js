@@ -447,7 +447,8 @@ angular.module('pidtpApp')
             {valor: 7, filtro: "Filtro Sobel"},
             {valor: 8, filtro: "Filtro Canny"},
             {valor: 9, filtro: "Transformada Monocromático"},
-            {valor: 10, filtro: "Filtro Negativo"}
+            {valor: 10, filtro: "Filtro Negativo"},
+            {valor: 11, filtro: "Transformada de Fourier"}
         ];
 
         // Filtro para mostrar numero de imagens na Rolagem ################333

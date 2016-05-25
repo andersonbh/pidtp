@@ -31,6 +31,8 @@
                         <div class="voffset2" ng-show="imagemFiltrada != null">
                             <label for="filtro">Filtro de Pré-Processamento:</label>
                             </br>
+                            <!--roubada para mostrar o fourier-->
+                            <img id="filtroFouri" height="{{ imagemFiltrada.height }}" ng-src="{{ imagemFiltrada.nome }}" alt="{{ imagemFiltrada.nome }}"/>
                             <img id="filtro" height="{{ imagemFiltrada.height }}" ng-src="{{ imagemFiltrada.caminho }}" alt="{{ imagemFiltrada.nome }}"/>
                         </div>
                     </div>
