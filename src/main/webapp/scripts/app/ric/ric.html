@@ -108,13 +108,10 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title text-info text-center">Imagem: {{selectedImagem.nome}}</h4>
+                                    <h4 class="modal-title text-info text-center">{{modalTitulo}}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <img height="300" ng-src="{{ selectedImagem.caminho }}"
-                                         alt="{{ selectedImagem.nome }}"/>
-                                    <nvd3 options='optionsCinza' data='dataCinza'></nvd3>
-                                    <nvd3 options='optionsPrecisao' data='dataPrecisao'></nvd3>
+                                    <nvd3 options='options' data='data'></nvd3>
                                 </div>
                                 <div class="modal-footer">
                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
@@ -155,15 +152,16 @@
                         </label>
                         <button ng-click="calcDist()" class="btn btn-primary button-left2" type="button">Calcular Distancia
                         </button>
-                        <!--<div>-->
-                        <!--<input type="number"-->
-                               <!--class="form-control"-->
-                               <!--id="girar"-->
-                               <!--ng-model="girar"-->
-                               <!--placeholder="Valor do angulo para girar imagem"-->
-                        <!--/>-->
-                        <!--<button ng-click="salvarEGira('principal')" class="btn btn-primary button-left2" type="button">Girar</button>-->
-                        <!--</div>-->
+                        <button ng-click="salvarEEspelha('principal')" class="btn btn-primary button-left2" type="button">Espelhar Imagem</button>
+                        <div>
+                        <input type="number"
+                               class="form-control"
+                               id="girar"
+                               ng-model="girar"
+                               placeholder="Valor do angulo para girar imagem"
+                        />
+                        <button ng-click="salvarEGira('principal')" class="btn btn-primary button-left2" type="button">Girar</button>
+                        </div>
                         <label>
                             Selecione o filtro:
                         </label>
