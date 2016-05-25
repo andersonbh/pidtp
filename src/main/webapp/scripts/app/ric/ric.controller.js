@@ -235,6 +235,45 @@ angular.module('pidtpApp')
             });
         };
 
+        $scope.salvarEGira = function (nomeImagem) {
+            $scope.imagemFiltrada = null;
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                // se o filtro for media
+                $scope.gira(nomeImagem);
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.gira = function (nomeImagem) {
+            $http.post("/ric/girar",
+                {
+                    nomeImagem: nomeImagem,
+                    variaveis: $scope.girar,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                $scope.imagemFiltrada = response.data[0];
+                $scope.girar = null;
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
         $scope.salvarEHistograma = function (imagem) {
             var cnvs = document.getElementById('pwCanvasMain');
             var dataURL = cnvs.toDataURL('image/jpeg');

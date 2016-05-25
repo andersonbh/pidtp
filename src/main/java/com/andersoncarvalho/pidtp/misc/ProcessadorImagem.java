@@ -576,4 +576,29 @@ public class ProcessadorImagem {
         return img;
     }
 
+    public Imagem girar(int variaveis) {
+        Imagem img = new Imagem();
+
+        IplImage rotatedImage = cvCreateImage(tamanhoDaImagem, 8, 3);
+
+        CvPoint2D32f center = new CvPoint2D32f();
+        center.x(tamanhoDaImagem.width()/2);
+        center.y(tamanhoDaImagem.height()/2);
+        CvMat mapMatrix = cvCreateMat(2, 3, CV_32FC1);
+
+        cv2DRotationMatrix(center, variaveis, 1.0, mapMatrix);
+        cvWarpAffine(imagemPrincipal, rotatedImage, mapMatrix, CV_INTER_LINEAR
+            + CV_WARP_FILL_OUTLIERS, cvScalarAll(0));
+
+        cvReleaseMat(mapMatrix);
+
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", rotatedImage);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(rotatedImage.height());
+        img.setWidth(rotatedImage.width());
+
+        return img;
+    }
+
 }

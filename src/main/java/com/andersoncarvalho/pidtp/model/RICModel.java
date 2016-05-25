@@ -141,6 +141,10 @@ public class RICModel {
         return piPrincipal.filtroNegativo();
     }
 
+    public Imagem girarImagem(String caminhoPadrao, String nomeImagem, int variaveis) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.girar(variaveis);
+    }
 
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;

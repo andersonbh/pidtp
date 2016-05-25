@@ -120,7 +120,6 @@ public class RICController extends AbstractController {
             }else if (tipo == 2){
                 img = RICModel.filtroMediana(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Mediana com sucesso");
-
             }else if (tipo == 3){
                 img = RICModel.filtroMaximo(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado Maximo com sucesso");
@@ -146,6 +145,27 @@ public class RICController extends AbstractController {
                 img = RICModel.filtroNegativo(caminhoPadrao,nomeImagem);
                 dt.setMessage("Filtro efetuado com sucesso");
             }
+            if(img != null) {
+                dt.add(img);
+                return dt;
+
+            }else{
+                return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+
+            }
+        }catch (Exception ex){
+            return DataResponse.ERROR.setMessage("Erro ao processar a imagem").setImportant(true);
+        }
+    }
+
+    @RequestMapping(value="/girar",method = RequestMethod.POST)
+    @ResponseBody
+    public DataResponse girar(HttpServletRequest request, @RequestParam String nomeImagem, @RequestParam int variaveis){
+        try{
+            DataData dt = new DataData();
+            String caminhoPadrao = request.getSession().getServletContext().getRealPath("/") + "assets/exemplos/";
+            Imagem img = RICModel.girarImagem(caminhoPadrao, nomeImagem,variaveis);
+            dt.setMessage("Filtro efetuado Média com sucesso");
             if(img != null) {
                 dt.add(img);
                 return dt;
