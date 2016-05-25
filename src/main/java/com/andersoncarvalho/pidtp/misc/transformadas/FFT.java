@@ -3,13 +3,13 @@ package com.andersoncarvalho.pidtp.misc.transformadas;
 
 public class FFT
 {
-	//enumeration allows user to pick whether the FFT transformation is run forward or backwards
+	//enumeracao permite que o usuario pegue a transformada FFT em frente ou inversa
 	public enum Direction
 	{
 		Forward,Reverse;
 	}
 
-	//for transforming two dimensional array of complex numbers
+	//transforma dois arrays dimensionais em numeros complexos
 	public static ComplexArrayWrap Transform(ComplexArrayWrap input, Direction direction)
 	{
 		ComplexArrayWrap intermediate = new ComplexArrayWrap(input.width,input.height);
@@ -24,7 +24,7 @@ public class FFT
 		return result;
 	}
 
-	//performs the FFT on a single dimension in the desired direction through recursion
+	//performa a transformada FFT em uma unica dimensao com a direcao desejada por recursao
 	private static Complex[] RecursiveFFT(Complex[] input, double direction)
 	{
 		int length = input.length;

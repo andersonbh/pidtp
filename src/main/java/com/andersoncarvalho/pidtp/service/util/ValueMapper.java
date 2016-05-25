@@ -2,12 +2,10 @@ package com.andersoncarvalho.pidtp.service.util;
 
 public class ValueMapper
 {
-	//fields
 	double[][] pixels;
 	private int width, height;
 	private Range range;
 
-	//parameterized constructor
 	public ValueMapper(double[][] input)
 	{
 		pixels = input;
@@ -16,7 +14,6 @@ public class ValueMapper
 	    range = FindRange(pixels);
 	}
 
-	//discovers the range for the data
 	public static Range FindRange(double[][] values)
 	{
 		double min = Double.MAX_VALUE;
@@ -32,7 +29,6 @@ public class ValueMapper
 		return new Range(min,max);
 	}
 
-	//maps the values to the given range
 	public double[][] GetLinearMap(Range map_to)
 	{
 		double[][] result = new double[height][width];
@@ -45,7 +41,6 @@ public class ValueMapper
 		return result;
 	}
 
-	//maps the values to the given range logarithmically
 	public double[][] GetLogarithmicMap(Range map_to, double intensity)
 	{
 		double[][] values = new double[height][width];

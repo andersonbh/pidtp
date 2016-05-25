@@ -2,61 +2,48 @@ package com.andersoncarvalho.pidtp.misc.transformadas;
 
 public class Complex
 {
-	//components of complex number
+	//componentes do numero complexo
 	public double real, imaginary;
 
-	//default constructor
+	//construtor padrao
 	public Complex()
 	{
 		real = 0;
 		imaginary = 0;
 	}
 
-	//parameterized constructor
+	//contrutor parametrizado
 	public Complex(double _real, double _imaginary)
 	{
 		real = _real;
 		imaginary = _imaginary;
 	}
 
-	//copy constructor
-	public Complex(Complex c)
-	{
-		real = c.real;
-		imaginary = c.imaginary;
-	}
-
-	//multiplies each component by a scalar
-	public Complex MultiplyScalar(double scalar)
-	{
-		return new Complex(real*scalar,imaginary*scalar);
-	}
-
-	//gets the result of euler's number raised to the complex
+	//pegar o resultado do numero euleriano elevado pelo complexo
 	public Complex GetExponential()
 	{
 		return new Complex(Math.exp(real)*Math.cos(imaginary),Math.exp(real)*Math.sin(imaginary));
 	}
 
-	//adds two complex numbers together
+	//adiciona dois numeros complexos
 	public Complex Add(Complex c)
 	{
 		return new Complex(real + c.real, imaginary + c.imaginary);
 	}
 
-	//subtracts two complex numbers
+	//subtrai dois numeros complexos
 	public Complex Subtract(Complex c)
 	{
 		return new Complex(real - c.real, imaginary - c.imaginary);
 	}
 
-	//multiplies two complex numbers
+	//multiplica dois numeros complexos
 	public Complex Multiply(Complex c)
 	{
 		return new Complex(real*c.real-imaginary*c.imaginary,real*c.imaginary + imaginary*c.real);
 	}
 
-	//divides two complex numbers
+	//divide dois numeros complexos
 	public Complex Divide(Complex c)
 	{
 		Complex numerator = this.Multiply(c.GetConjugate());
@@ -64,25 +51,25 @@ public class Complex
 		return new Complex(numerator.real/denominator.real,numerator.imaginary/denominator.real);
 	}
 
-	//gets the conjugate of a complex number
+	//pega o conjugado do numero complexo
 	public Complex GetConjugate()
 	{
 		return new Complex(real,-imaginary);
 	}
 
-	//gets the magnitude of the complex number
+	//pega a magnitude do numero complexo
 	public double GetMagnitude()
 	{
 		return Math.sqrt(real*real + imaginary*imaginary);
 	}
 
-	//gets the phase of the complex number
+	//pega a fase do numero complexo
 	public double GetPhase()
 	{
 		return (real == 0 && imaginary ==0)?0:Math.atan(imaginary/real);
 	}
 
-	//for printing purposes
+	//para propositos de impressao
 	public String toString()
 	{
 		return real + ((imaginary<0)?" ":" + ") + imaginary + "i";

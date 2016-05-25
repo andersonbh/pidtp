@@ -4,16 +4,16 @@ package com.andersoncarvalho.pidtp.misc.transformadas;
 import com.andersoncarvalho.pidtp.service.util.Kernel;
 
 public class ComplexArrayWrap {
-    //fields
+    //variaveis
     public int width, height, size;
     public Complex[][] values;
 
-    //enumeration of different 1 dimensional ways to represent the otherwise 2dimensional complex number
+    //enumeracao da representacao de diferentes numeros de 1 dimensao e de 2 dimensoes
     public enum Representation {
         Real, Imaginary, Magnitude, Phase;
     }
 
-    //parameterized constructor
+    //construtor parametrizado
     public ComplexArrayWrap(int _width, int _height) {
         width = _width;
         height = _height;
@@ -28,7 +28,7 @@ public class ComplexArrayWrap {
         }
     }
 
-    //parameterized constructor
+    //construtor parametrizado
     public ComplexArrayWrap(double[][] pixels) {
         width = pixels[0].length;
         height = pixels.length;
@@ -45,7 +45,7 @@ public class ComplexArrayWrap {
         }
     }
 
-    //returns a single row of the two dimensional array
+    //retorna uma unica linha com dois arrays dimensionais
     public Complex[] GetRow(int row) {
         Complex[] result = new Complex[size];
         for (int col = 0; col < size; col++) {
@@ -54,7 +54,7 @@ public class ComplexArrayWrap {
         return result;
     }
 
-    //gets a single column of the two dimensional array
+    //retorna uma unica coluna com dois arrays dimensionais
     public Complex[] GetColumn(int col) {
         Complex[] result = new Complex[size];
         for (int row = 0; row < size; row++) {
@@ -63,21 +63,21 @@ public class ComplexArrayWrap {
         return result;
     }
 
-    //sets a single row of the two dimensional array
+    //seta uma unica linha para os dois arrays dimensionais
     public void SetRow(int row, Complex[] data) {
         for (int col = 0; col < size; col++) {
             values[row][col] = data[col];
         }
     }
 
-    //sets a single column of the two dimensional array
+    //seta uma unica coluna para os dois arrays dimensionais
     public void SetColumn(int col, Complex[] data) {
         for (int row = 0; row < size; row++) {
             values[row][col] = data[row];
         }
     }
 
-    //returns the matrix with each value reduced to a single dimension as specified by the user
+    //retorna a matriz com cada valor reduzido para uma unica dimensao especificada pelo usuario
     public double[][] GetRepresentation(Representation type) {
         double[][] result = new double[size][size];
         for (int row = 0; row < size; row++) {
@@ -104,9 +104,9 @@ public class ComplexArrayWrap {
         return result;
     }
 
-    //piecewise multiplies each element in the array by the corresponding element in the kernel
-    //note that kernel is provided as an object so that user need not create an actual matrix
-    //instead the object will generate its values based on its location in the array
+    //multiplica seccionalmente cada elemento no array pelo seu respectivo elemento no kernel
+    //note que o kernel vem como um objeto para que o usuario nao precise criar uma matriz
+    //em vez disso o objeto vai gerar seus valores baseados em suas localizacoes no array
     public void Convolve(Kernel k) {
         double ratio = 1 / (double) size;
         for (int row = 0; row < size; row++) {
@@ -117,16 +117,7 @@ public class ComplexArrayWrap {
         }
     }
 
-    //gets the exponential of each item
-    public void Powerize(double i) {
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                values[row][col] = values[row][col].GetExponential();
-            }
-        }
-    }
-
-    //returns a string representation of the object
+    //retorna uma string para representacao do objeto
     public String toString() {
         return "Width: " + width + " Height: " + height + " Size: " + size;
     }

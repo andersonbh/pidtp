@@ -5,16 +5,13 @@ import java.awt.*;
 
 public class Manipulator
 {
-	//various color spaces
 	double[][] luminance, greyscale, red, green, blue;
 
-	//allows user to select a color space
 	public enum ColorSpace
 	{
 		Luminance, Greyscale, Red, Green, Blue;
 	}
 
-	//returns the appropriate color space
 	public double[][] GetColorSpace(ColorSpace space)
 	{
 		switch(space)
@@ -34,7 +31,6 @@ public class Manipulator
 		}
 	}
 
-	//constructs each of the color spaces based on the input colors
 	public Manipulator(Color[][] pixels)
 	{
 		luminance = new double[pixels.length][pixels[0].length];
