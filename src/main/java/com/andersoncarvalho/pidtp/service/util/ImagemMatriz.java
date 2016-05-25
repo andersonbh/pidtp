@@ -3,56 +3,53 @@ package com.andersoncarvalho.pidtp.service.util;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-//likely all of this could be done much more efficiently by reading into a
-//one dimensional array instead of getting and setting individual pixels
-public class ImageMatrix
+public class ImagemMatriz
 {
-	//fields
-	public Color[][] matrix;
+	public Color[][] matriz;
 	public int width, height;
 
 	//constructs object from color array
-	public ImageMatrix(Color[][] _matrix)
+	public ImagemMatriz(Color[][] _matriz)
 	{
-		width = _matrix[0].length;
-		height = _matrix.length;
+		width = _matriz[0].length;
+		height = _matriz.length;
 
-		matrix = new Color[width][height];
+		matriz = new Color[width][height];
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++)
-				matrix[x][y]= _matrix[x][y];
+				matriz[x][y]= _matriz[x][y];
 	}
 
 	//converts array of doubles into array of colors
-	public ImageMatrix(double[][] _matrix)
+	public ImagemMatriz(double[][] _matriz)
 	{
-		width = _matrix[0].length;
-		height = _matrix.length;
+		width = _matriz[0].length;
+		height = _matriz.length;
 
-		matrix = new Color[width][height];
+		matriz = new Color[width][height];
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++)
 				try
 				{
-					matrix[x][y]= new Color((float)_matrix[x][y],(float)_matrix[x][y],(float)_matrix[x][y]);
+					matriz[x][y]= new Color((float)_matriz[x][y],(float)_matriz[x][y],(float)_matriz[x][y]);
 				}
 				catch(Exception e)
 				{
 
-					matrix[x][y] = Color.white;
+					matriz[x][y] = Color.white;
 				}
 	}
 
 	//converts an image into an array of colors
-	public ImageMatrix(BufferedImage image)
+	public ImagemMatriz(BufferedImage image)
 	{
 		width = image.getWidth();
 		height = image.getHeight();
 
-		matrix = new Color[width][height];
+		matriz = new Color[width][height];
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++)
-				matrix[x][y]= new Color(image.getRGB(x, y));
+				matriz[x][y]= new Color(image.getRGB(x, y));
 	}
 
 	//converts array of colors back into an image
@@ -61,14 +58,14 @@ public class ImageMatrix
 		BufferedImage result = new BufferedImage(width, height, 0);
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++)
-				result.setRGB(x, y, matrix[x][y].getRGB());
+				result.setRGB(x, y, matriz[x][y].getRGB());
 
 		return result;
 	}
 
 	//creates a copy
-	public ImageMatrix copy()
+	public ImagemMatriz copy()
 	{
-		return new ImageMatrix(matrix);
+		return new ImagemMatriz(matriz);
 	}
 }

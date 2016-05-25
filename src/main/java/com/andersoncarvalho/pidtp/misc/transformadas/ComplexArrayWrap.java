@@ -77,7 +77,7 @@ public class ComplexArrayWrap {
         }
     }
 
-    //returns the matrix with each value reduced to a single dimension as specified by the user
+    //returns the matriz with each value reduced to a single dimension as specified by the user
     public double[][] GetRepresentation(Representation type) {
         double[][] result = new double[size][size];
         for (int row = 0; row < size; row++) {
@@ -105,7 +105,7 @@ public class ComplexArrayWrap {
     }
 
     //piecewise multiplies each element in the array by the corresponding element in the kernel
-    //note that kernel is provided as an object so that user need not create an actual matrix
+    //note that kernel is provided as an object so that user need not create an actual matriz
     //instead the object will generate its values based on its location in the array
     public void Convolve(Kernel k) {
         double ratio = 1 / (double) size;
@@ -113,15 +113,6 @@ public class ComplexArrayWrap {
             for (int col = 0; col < size; col++) {
                 values[row][col] = values[row][col]
                         .Multiply(new Complex(k.GetFactor(2 * (col * ratio) - 1, 2 * (row * ratio) - 1), 0));
-            }
-        }
-    }
-
-    //gets the exponential of each item
-    public void Powerize(double i) {
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                values[row][col] = values[row][col].GetExponential();
             }
         }
     }

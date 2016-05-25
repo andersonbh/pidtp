@@ -1,7 +1,6 @@
 package com.andersoncarvalho.pidtp.service.util;
 import java.text.DecimalFormat;
 
-//abstract class for various filtering kernel functions
 public abstract class Kernel
 {
 	public DecimalFormat formatter;

@@ -1,8 +1,9 @@
 package com.andersoncarvalho.pidtp.misc;
 
 import com.andersoncarvalho.pidtp.entity.Imagem;
+import com.andersoncarvalho.pidtp.misc.filtros.Gaussian;
 import com.andersoncarvalho.pidtp.misc.transformadas.*;
-import com.andersoncarvalho.pidtp.service.util.ImageMatrix;
+import com.andersoncarvalho.pidtp.service.util.ImagemMatriz;
 import com.andersoncarvalho.pidtp.service.util.Manipulator;
 import com.andersoncarvalho.pidtp.service.util.ValueMapper;
 import org.bytedeco.javacpp.opencv_core.*;
@@ -571,15 +572,19 @@ public class ProcessadorImagem {
         BufferedImage tmp = IplImageToBufferedImage(imagemPrincipal);
 
         //converting image into array of colors
-        ImageMatrix image = new ImageMatrix(tmp);
+        ImagemMatriz image = new ImagemMatriz(tmp);
         //wrapping image with an object to access various color spaces
-        Manipulator manipulator = new Manipulator(image.matrix);
+        Manipulator manipulator = new Manipulator(image.matriz);
 
         //creating complex array from grayscale color space
         ComplexArrayWrap original = new ComplexArrayWrap(manipulator.GetColorSpace(Manipulator.ColorSpace.Greyscale));
 
         //transforming image to frequency domain
         ComplexArrayWrap transformed = FFT.Transform(original, FFT.Direction.Forward);
+
+        // apply this for a gaussian blur
+         Gaussian gaussian_filter = new Gaussian(100, 0.5);
+         transformed.Convolve(gaussian_filter);
 
         //transforming frequency domain image back into spacial domain
         ComplexArrayWrap inverse = FFT.Transform(transformed, FFT.Direction.Reverse);
@@ -590,19 +595,19 @@ public class ProcessadorImagem {
         ValueMapper mapper2 = new ValueMapper(inverse.GetRepresentation(ComplexArrayWrap.Representation.Magnitude));
 
         //getting the visible spectrum version of the frequency domain
-        ImageMatrix frequency_domain = new ImageMatrix(mapper.GetLogarithmicMap(new Range(0, 1), 100000));
+        ImagemMatriz frequency_domain = new ImagemMatriz(mapper.GetLogarithmicMap(new Range(0, 1), 100000));
 
         //getting visible spectrum version of the spacial domain
-        ImageMatrix inverse_frequency = new ImageMatrix(mapper2.GetLinearMap(new Range(0, 0.80)));
+        ImagemMatriz inverse_frequency = new ImagemMatriz(mapper2.GetLinearMap(new Range(0, 0.80)));
 
         BufferedImage saida = new BufferedImage(tmp.getWidth(), tmp.getHeight(), BufferedImage.TYPE_INT_RGB);
 
 
         //setting the buffers for each window to display
-        SetBuffer(inverse_frequency.matrix, saida);
+        SetBuffer(inverse_frequency.matriz, saida);
         salvarArquivo(caminhoPadrao + nomeImagem + "_filtro.jpg",saida);
 
-        SetBuffer(frequency_domain.matrix, saida);
+        SetBuffer(frequency_domain.matriz, saida);
         salvarArquivo(caminhoPadrao + nomeImagem + "_filtro2.jpg",saida);
 
         img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");

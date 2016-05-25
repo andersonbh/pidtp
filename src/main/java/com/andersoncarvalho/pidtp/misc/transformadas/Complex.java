@@ -19,19 +19,6 @@ public class Complex
 		imaginary = _imaginary;
 	}
 
-	//copy constructor
-	public Complex(Complex c)
-	{
-		real = c.real;
-		imaginary = c.imaginary;
-	}
-
-	//multiplies each component by a scalar
-	public Complex MultiplyScalar(double scalar)
-	{
-		return new Complex(real*scalar,imaginary*scalar);
-	}
-
 	//gets the result of euler's number raised to the complex
 	public Complex GetExponential()
 	{
