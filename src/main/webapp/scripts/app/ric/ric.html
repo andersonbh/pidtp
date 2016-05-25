@@ -80,7 +80,7 @@
                                         <input type="radio" ng-model="sobelFiltro" value="3">
                                         Bordas em X e Y
                                     </form>
-                                    <button ng-click="salvarEFiltro('principal')" class="btn btn-primary button-left2" type="button" ng-show="selectedFiltroImagem.valor != null">Ok</button>
+                                    <button ng-click="salvarEFiltro(selectedImagem.nome)" class="btn btn-primary button-left2" type="button" ng-show="selectedFiltroImagem.valor != null">Ok</button>
 
 
                                     <br/>
@@ -156,10 +156,11 @@
                         <button ng-click="salvarEEspelha('principal')" class="btn btn-primary button-left2" type="button">Espelhar Imagem</button>
                         <div>
                         <input type="number"
-                               class="form-control"
+                               class=""
                                id="girar"
                                ng-model="girar"
-                               placeholder="Valor do angulo para girar imagem"
+                               style="margin-bottom: 5px; margin-top: 20px;"
+                               placeholder="Ângulo para girar imagem"
                         />
                         <button ng-click="salvarEGira('principal')" class="btn btn-primary button-left2" type="button">Girar</button>
                         </div>
