@@ -1,6 +1,11 @@
 package com.andersoncarvalho.pidtp.misc;
 
 import com.andersoncarvalho.pidtp.entity.Imagem;
+import com.andersoncarvalho.pidtp.misc.filtros.Gaussian;
+import com.andersoncarvalho.pidtp.misc.transformadas.*;
+import com.andersoncarvalho.pidtp.service.util.ImagemMatriz;
+import com.andersoncarvalho.pidtp.service.util.Manipulator;
+import com.andersoncarvalho.pidtp.service.util.ValueMapper;
 import org.bytedeco.javacpp.opencv_core.*;
 import org.bytedeco.javacv.*;
 
@@ -8,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import  com.andersoncarvalho.pidtp.service.util.Range;
 import java.io.IOException;
 import static org.bytedeco.javacpp.helper.opencv_imgproc.cvCalcHist;
 import static org.bytedeco.javacpp.opencv_core.*;
@@ -561,12 +567,68 @@ public class ProcessadorImagem {
         return img;
     }
 
+    public Imagem transformadaDeFourier (){
+        Imagem img = new Imagem();
+        BufferedImage tmp = IplImageToBufferedImage(imagemPrincipal);
+
+        //converter a imagem em um array de cores
+        ImagemMatriz imagem = new ImagemMatriz(tmp);
+        //envolvendo a imagem a um objeto para acessar varios espacos de cores
+        Manipulator manipulador = new Manipulator(imagem.matriz);
+
+        //creando um array complexo a partir de espaco de cores em escala de cinza
+        ComplexArrayWrap original = new ComplexArrayWrap(manipulador.GetColorSpace(Manipulator.ColorSpace.Greyscale));
+
+        //transformando a imagem para o dominio de frequencia
+        ComplexArrayWrap transformando = FFT.Transform(original, FFT.Direction.Forward);
+
+        //aplicando o filtro gaussiano para o borrado
+        Gaussian gaussian_filter = new Gaussian(100, 0.5);
+        transformando.Convolve(gaussian_filter);
+
+        //transformando a imagem do dominio de frequencia de volta para o dominio espacial
+        ComplexArrayWrap inversa = FFT.Transform(transformando, FFT.Direction.Reverse);
+
+        //esses objetos mapeiam os valores do dominio de frequencia para o espectro visivel
+        //Range alcance_original = ValueMapper.FindRange(original.GetRepresentation(ComplexArrayWrap.Representation.Magnitude));
+        ValueMapper map = new ValueMapper(transformando.GetRepresentation(ComplexArrayWrap.Representation.Magnitude));
+        ValueMapper map2 = new ValueMapper(inversa.GetRepresentation(ComplexArrayWrap.Representation.Magnitude));
+
+        //pegando a versao do espectro visivel do dominio de frequencia
+        ImagemMatriz dominio_frequencia= new ImagemMatriz(map.GetLogarithmicMap(new Range(0, 1), 100000));
+
+        //pegando a versao do espectro visivel do dominio espacial
+        ImagemMatriz frequencia_inversa = new ImagemMatriz(map2.GetLinearMap(new Range(0, 0.80)));
+        BufferedImage saida = new BufferedImage(tmp.getWidth(), tmp.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+        //setando os buffers para mostrar em cada janela
+        SetBuffer(frequencia_inversa.matriz, saida);
+        salvarArquivo(caminhoPadrao + nomeImagem + "_filtro.jpg",saida);
+
+        SetBuffer(dominio_frequencia.matriz, saida);
+        salvarArquivo(caminhoPadrao + nomeImagem + "_filtro2.jpg",saida);
+
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome("../../../assets/exemplos/" + nomeImagem + "_filtro2.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+        return img;
+    }
+
+    public void SetBuffer(Color[][] _buffer, BufferedImage saida) {
+        for (int y = 0; y < imagemPrincipal.height(); y++) {
+            for (int x = 0; x < imagemPrincipal.width(); x++) {
+                saida.setRGB(x, y, _buffer[x][y].getRGB());
+            }
+        }
+    }
+
+
     public Imagem filtroNegativo (){
         Imagem img = new Imagem();
         IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
 
         cvNot(imagemPrincipal, imgTmp);
-//        cvFlip(imgTmp, imgTmp, 180);
         cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
         img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
         img.setNome(nomeImagem + "_filtro.jpg");
@@ -575,5 +637,45 @@ public class ProcessadorImagem {
 
         return img;
     }
+
+    public Imagem girar(int variaveis) {
+        Imagem img = new Imagem();
+
+        IplImage rotatedImage = cvCreateImage(tamanhoDaImagem, 8, 3);
+
+        CvPoint2D32f center = new CvPoint2D32f();
+        center.x(tamanhoDaImagem.width()/2);
+        center.y(tamanhoDaImagem.height()/2);
+        CvMat mapMatrix = cvCreateMat(2, 3, CV_32FC1);
+
+        cv2DRotationMatrix(center, variaveis, 1.0, mapMatrix);
+        cvWarpAffine(imagemPrincipal, rotatedImage, mapMatrix, CV_INTER_LINEAR
+            + CV_WARP_FILL_OUTLIERS, cvScalarAll(0));
+
+        cvReleaseMat(mapMatrix);
+
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", rotatedImage);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(rotatedImage.height());
+        img.setWidth(rotatedImage.width());
+
+        return img;
+    }
+
+    public Imagem espelhar (){
+        Imagem img = new Imagem();
+        IplImage imgTmp = cvCreateImage(tamanhoDaImagem, 8, 3);
+
+        cvFlip(imagemPrincipal, imgTmp, 180);
+        cvSaveImage(caminhoPadrao + nomeImagem + "_filtro.jpg", imgTmp);
+        img.setCaminho("../../../assets/exemplos/" + nomeImagem + "_filtro.jpg");
+        img.setNome(nomeImagem + "_filtro.jpg");
+        img.setHeight(tamanhoDaImagem.height());
+        img.setWidth(tamanhoDaImagem.width());
+
+        return img;
+    }
+
 
 }

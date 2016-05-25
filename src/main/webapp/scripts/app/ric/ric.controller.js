@@ -235,6 +235,82 @@ angular.module('pidtpApp')
             });
         };
 
+        $scope.salvarEGira = function (nomeImagem) {
+            $scope.imagemFiltrada = null;
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                // se o filtro for media
+                $scope.gira(nomeImagem);
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.gira = function (nomeImagem) {
+            $http.post("/ric/girar",
+                {
+                    nomeImagem: nomeImagem,
+                    variaveis: $scope.girar,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                $scope.imagemFiltrada = response.data[0];
+                $scope.girar = null;
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.salvarEEspelha = function (nomeImagem) {
+            $scope.imagemFiltrada = null;
+            var cnvs = document.getElementById('pwCanvasMain');
+            var dataURL = cnvs.toDataURL('image/jpeg');
+            $http.post("/ric/uploadimg",
+                {
+                    dataURL: dataURL,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                // se o filtro for media
+                $scope.espelha(nomeImagem);
+                console.log('aeee' + response.message);
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
+        $scope.espelha = function (nomeImagem) {
+            $http.post("/ric/espelhar",
+                {
+                    nomeImagem: nomeImagem,
+                    ajax : true}, {
+                    transformRequest: function(data) {
+                        return $.param(data);
+                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' }
+                }).success(function(response){
+                $scope.imagemFiltrada = response.data[0];
+            }).error(function(response){
+                console.log('merda');
+            });
+        };
+
         $scope.salvarEHistograma = function (imagem) {
             var cnvs = document.getElementById('pwCanvasMain');
             var dataURL = cnvs.toDataURL('image/jpeg');
@@ -386,7 +462,7 @@ angular.module('pidtpApp')
                 }
             ];
 
-            $('#graficos').modal('show');
+            $('#graficosModais').modal('show');
         };
         //#######################################################
 
@@ -408,7 +484,8 @@ angular.module('pidtpApp')
             {valor: 7, filtro: "Filtro Sobel"},
             {valor: 8, filtro: "Filtro Canny"},
             {valor: 9, filtro: "Transformada Monocromático"},
-            {valor: 10, filtro: "Filtro Negativo"}
+            {valor: 10, filtro: "Filtro Negativo"},
+            {valor: 11, filtro: "Transformada de Fourier"}
         ];
 
         // Filtro para mostrar numero de imagens na Rolagem ################333

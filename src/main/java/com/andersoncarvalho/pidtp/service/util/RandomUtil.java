@@ -3,7 +3,7 @@ package com.andersoncarvalho.pidtp.service.util;
 import org.apache.commons.lang.RandomStringUtils;
 
 /**
- * Utility class for generating random Strings.
+ * Classe para geracao de strings aleatorias.
  */
 public final class RandomUtil {
 
@@ -13,27 +13,27 @@ public final class RandomUtil {
     }
 
     /**
-     * Generates a password.
+     * Gera uma senha.
      *
-     * @return the generated password
+     * @return a senha gerada
      */
     public static String generatePassword() {
         return RandomStringUtils.randomAlphanumeric(DEF_COUNT);
     }
 
     /**
-     * Generates an activation key.
+     * Gera uma chava de ativacao.
      *
-     * @return the generated activation key
+     * @return a chavede ativacao
      */
     public static String generateActivationKey() {
         return RandomStringUtils.randomNumeric(DEF_COUNT);
     }
 
     /**
-    * Generates a reset key.
+    * Gera uma chave para resetar.
     *
-    * @return the generated reset key
+    * @return a chave para resetar
     */
     public static String generateResetKey() {
         return RandomStringUtils.randomNumeric(DEF_COUNT);

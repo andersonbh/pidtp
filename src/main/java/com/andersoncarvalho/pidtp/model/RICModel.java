@@ -136,11 +136,25 @@ public class RICModel {
         return piPrincipal.transformadaMonocromatico() ;
     }
 
+    public Imagem  transformadaDeFourier(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.transformadaDeFourier() ;
+    }
+
     public Imagem filtroNegativo(String caminhoPadrao, String nomeImagem) throws IOException {
         ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
         return piPrincipal.filtroNegativo();
     }
 
+    public Imagem girarImagem(String caminhoPadrao, String nomeImagem, int variaveis) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.girar(variaveis);
+    }
+
+    public Imagem espelharImagem(String caminhoPadrao, String nomeImagem) throws IOException {
+        ProcessadorImagem piPrincipal = new ProcessadorImagem(caminhoPadrao,nomeImagem, false );
+        return piPrincipal.espelhar();
+    }
 
     public void calcXadrez(String caminhoPadrao) throws IOException {
         ProcessadorImagem pi;
